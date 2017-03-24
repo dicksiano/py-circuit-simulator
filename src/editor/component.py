@@ -1,4 +1,3 @@
-import pygame
 
 class Component:
     """Abstract class for objects that are drawn on the screen and interact with the mouse"""

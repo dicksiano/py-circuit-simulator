@@ -1,5 +1,3 @@
-import pygame, os
-
 from src.editor.component import Component
 
 class ToolbarButton(Component):
@@ -12,9 +10,6 @@ class ToolbarButton(Component):
         self.color = (200, 200, 200)
         self.click_count = 0
 
-        # TODO change this to a singleton
-        self.font = pygame.font.Font(os.path.join('res', 'open-sans.ttf'), 20)
-
     def on_mouse_click(self, x, y, button):
         self.click_count += 1
         self.text = "clicked! " + str(self.click_count)
@@ -26,13 +21,9 @@ class ToolbarButton(Component):
         self.color = (200, 200, 200)
     
     def render(self, screen):
-        pygame.draw.rect(screen, self.color, (self.x, self.y, self.width, self.height))
-        
-        text_surface = self.font.render(self.text, True, (0, 0, 0))
-        text_bounds = text_surface.get_bounding_rect()
-        text_x = self.x + (self.width - text_bounds.width) / 2 - text_bounds.x
-        text_y = self.y + (self.height - text_bounds.height) / 2 - text_bounds.y
-        screen.blit(text_surface, (text_x, text_y))
+        bounds = (self.x, self.y, self.width, self.height)
+        screen.fillRect(self.color, bounds)
+        screen.drawTextCentered(self.text, (0, 0, 0), bounds)
 
 class Toolbar(Component):
     """Component that holds arrays of buttons for the UI"""

@@ -10,7 +10,7 @@ SCREEN_HEIGHT = 600
 # INIT
 pygame.init()
 pygame.font.init()
-screen = pygame.display.set_mode( (SCREEN_WIDTH, SCREEN_HEIGHT) )
+surface = pygame.display.set_mode( (SCREEN_WIDTH, SCREEN_HEIGHT) )
 pygame.display.set_caption("Circuit Simulator")
 
 # ASSETS
@@ -18,7 +18,7 @@ pygame.display.set_caption("Circuit Simulator")
 #screen.blit(IMAGE_PORT_NOT, IMAGE_PORT_NOT.get_rect())
 
 clock = pygame.time.Clock()
-editor = Editor()
+editor = Editor(surface)
 
 while True:
     # EVENT QUEUE
@@ -37,8 +37,8 @@ while True:
     editor.update()
 
     # DRAW SCREEN
-    screen.fill((255, 255, 255))
-    editor.render(screen)
+    surface.fill((255, 255, 255))
+    editor.render()
     pygame.display.flip()
 
     # FPS CAP
