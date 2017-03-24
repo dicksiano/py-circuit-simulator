@@ -1,6 +1,8 @@
 import pygame, sys, os
 from pygame.locals import *
 
+from editor import *
+
 # CONSTANTS
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -12,35 +14,34 @@ MOUSE_SCROLL_DOWN = 5
 
 # INIT
 pygame.init()
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("My First Game")
+screen = pygame.display.set_mode( (SCREEN_WIDTH, SCREEN_HEIGHT) )
+pygame.display.set_caption("Circuit Simulator")
 
 # ASSETS
-IMAGE_PORT_NOT = pygame.image.load(os.path.join('res', 'port_not.png'))
+#IMAGE_PORT_NOT = pygame.image.load(os.path.join('res', 'port_not.png'))
+#screen.blit(IMAGE_PORT_NOT, IMAGE_PORT_NOT.get_rect())
 
-# APPLICATION
-mouse_pos = (0, 0)
-blocks = []
+clock = pygame.time.Clock()
+editor = Editor()
+
 while True:
-
     # EVENT QUEUE
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
         elif event.type == MOUSEMOTION:
-            mouse_pos = event.pos
-        elif event.type == MOUSEBUTTONUP and event.button == MOUSE_BUTTON_LEFT:
-            blocks.append(event.pos)
+            editor.on_mouse_move(event.pos[0], event.pos[1])
+        elif event.type == MOUSEBUTTONUP:
+            editor.on_mouse_click(event.pos[0], event.pos[1], event.button != MOUSE_BUTTON_LEFT)
+        
+    # UPDATE
+    editor.update()
 
     # DRAW SCREEN
     screen.fill((255, 255, 255))
-
-    for block in blocks:
-        pygame.draw.rect(screen, (0, 255, 0), (block[0] - 5, block[1] - 5, 10, 10))
-
-    pygame.draw.rect(screen, (255, 0, 0), (mouse_pos[0] - 5, mouse_pos[1] - 5, 10, 10))
-
-    screen.blit(IMAGE_PORT_NOT, IMAGE_PORT_NOT.get_rect())
-
+    editor.render(screen)
     pygame.display.flip()
+
+    # FPS CAP
+    clock.tick(60)
