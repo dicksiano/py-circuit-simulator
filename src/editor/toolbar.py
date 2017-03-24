@@ -8,8 +8,15 @@ class ToolbarButton(Component):
 
         self.text = text
         self.color = (200, 200, 200)
+        self.click_count = 0
 
         self.font = pygame.font.Font(os.path.join('res', 'open-sans.ttf'), 20)
+
+    def on_mouse_click(self, x, y, button):
+        print("lol")
+
+        self.click_count += 1
+        self.text = "clicked! " + str(self.click_count)
 
     def on_mouse_enter(self):
         self.color = (220, 220, 220)
@@ -18,7 +25,7 @@ class ToolbarButton(Component):
         self.color = (200, 200, 200)
     
     def render(self, screen):
-        pygame.draw.rect(screen, self.color, self.get_bounds())
+        pygame.draw.rect(screen, self.color, self.get_bounds().to_tuple())
         
         text_surface = self.font.render(self.text, True, (0, 0, 0))
         text_bounds = text_surface.get_bounding_rect()

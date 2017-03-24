@@ -7,11 +7,6 @@ from src.editor.editor import Editor
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
-MOUSE_BUTTON_LEFT = 1
-MOUSE_BUTTON_RIGHT = 2
-MOUSE_SCROLL_UP = 4
-MOUSE_SCROLL_DOWN = 5
-
 # INIT
 pygame.init()
 pygame.font.init()
@@ -33,8 +28,10 @@ while True:
             sys.exit()
         elif event.type == MOUSEMOTION:
             editor.on_mouse_move(event.pos[0], event.pos[1])
+        elif event.type == MOUSEBUTTONDOWN:
+            editor.on_mouse_down(event.pos[0], event.pos[1], event.button)
         elif event.type == MOUSEBUTTONUP:
-            editor.on_mouse_click(event.pos[0], event.pos[1], event.button != MOUSE_BUTTON_LEFT)
+            editor.on_mouse_up(event.pos[0], event.pos[1], event.button)
         
     # UPDATE
     editor.update()
