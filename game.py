@@ -1,7 +1,7 @@
 import pygame, sys, os
 from pygame.locals import *
 
-from editor import *
+from src.editor.editor import Editor
 
 # CONSTANTS
 SCREEN_WIDTH = 800
@@ -14,6 +14,7 @@ MOUSE_SCROLL_DOWN = 5
 
 # INIT
 pygame.init()
+pygame.font.init()
 screen = pygame.display.set_mode( (SCREEN_WIDTH, SCREEN_HEIGHT) )
 pygame.display.set_caption("Circuit Simulator")
 
