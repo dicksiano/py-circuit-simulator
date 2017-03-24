@@ -1,16 +1,19 @@
 
 class Mouse:
     def __init__(self):
+        # CONSTANTS
         self.BUTTON_LEFT = 1
         self.BUTTON_RIGHT = 2
         self.SCROLL_UP = 4
         self.SCROLL_DOWN = 5
 
+        # CURRENT STATE
         self.x = 0
         self.y = 0
         self.left_button = False
         self.right_button = False
 
+        # PREVIOUS STATE
         self.prev_x = 0
         self.prev_y = 0
         self.prev_left_button = False

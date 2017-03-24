@@ -13,8 +13,6 @@ class ToolbarButton(Component):
         self.font = pygame.font.Font(os.path.join('res', 'open-sans.ttf'), 20)
 
     def on_mouse_click(self, x, y, button):
-        print("lol")
-
         self.click_count += 1
         self.text = "clicked! " + str(self.click_count)
 
