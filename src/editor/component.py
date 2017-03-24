@@ -1,16 +1,8 @@
 import pygame
 
-class Bounds:
-    def __init__(self, x, y, width, height):
-        self.x = x
-        self.y = y
-        self.width = width
-        self.height = height
-    
-    def to_tuple(self):
-        return (self.x, self.y, self.width, self.height)
-
 class Component:
+    """Abstract class for objects that are drawn on the screen and interact with the mouse"""
+
     # CONSTRUCTOR
     def __init__(self, x, y, width, height):
         self.x = x
@@ -33,20 +25,15 @@ class Component:
     def on_mouse_exit(self):
         pass
 
-    def get_bounds(self):
-        return Bounds(self.x, self.y, self.width, self.height)
-
     # GAME LOOP
     def update(self, mouse):
         last_mouse_in_bounds = self._mouse_in_bounds
 
-        bounds = self.get_bounds()
-        if bounds.x <= mouse.x <= bounds.x + bounds.width \
-            and bounds.y <= mouse.y <= bounds.y + bounds.height:
+        if self.x <= mouse.x <= self.x + self.width \
+            and self.y <= mouse.y <= self.y + self.height:
             mouse_in_bounds = True
         else:
             mouse_in_bounds = False
-
         self._mouse_in_bounds = mouse_in_bounds    
         
         if mouse_in_bounds and not last_mouse_in_bounds:
@@ -59,6 +46,8 @@ class Component:
                 self.on_mouse_click(mouse.x, mouse.y, mouse.BUTTON_LEFT)
             if mouse.right_button and not mouse.prev_right_button:
                 self.on_mouse_click(mouse.x, mouse.y, mouse.BUTTON_RIGHT)
+            if mouse.x != mouse.prev_x or mouse.y != mouse.prev_y:
+                self.on_mouse_move(mouse.x, mouse.y)
 
     def render(self, screen):
         pass
