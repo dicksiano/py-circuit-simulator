@@ -4,6 +4,8 @@ from src.editor.mouse import Mouse
 from src.editor.toolbar import Toolbar
 
 class Editor:
+    """GUI that interacts with the user to create and modify digital circuits"""
+
     # CONSTRUCTOR
     def __init__(self):
         self.mouse = Mouse()
@@ -29,9 +31,9 @@ class Editor:
 
     def render(self, screen):
 
-        self.toolbar.render(screen)
-
         for block in self.blocks:
             pygame.draw.rect(screen, (0, 255, 0), (block[0] - 5, block[1] - 5, 10, 10))
+
+        self.toolbar.render(screen)
 
         pygame.draw.rect(screen, (255, 0, 0), (self.mouse.x - 5, self.mouse.y - 5, 10, 10))

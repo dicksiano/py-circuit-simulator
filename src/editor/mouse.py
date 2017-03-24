@@ -1,5 +1,7 @@
 
 class Mouse:
+    """Stores the state of the mouse, including position and button states"""
+
     def __init__(self):
         # CONSTANTS
         self.BUTTON_LEFT = 1
