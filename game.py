@@ -8,6 +8,7 @@ SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
 # INIT
+os.environ['SDL_VIDEO_CENTERED'] = '1'
 pygame.init()
 pygame.font.init()
 surface = pygame.display.set_mode( (SCREEN_WIDTH, SCREEN_HEIGHT) )

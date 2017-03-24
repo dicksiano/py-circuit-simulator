@@ -30,11 +30,7 @@ class Editor:
         self.mouse.update()
 
     def render(self):
-
         for block in self.blocks:
             self.screen.fillRect((0, 255, 0), (block[0] - 5, block[1] - 5, 10, 10))
-
         self.toolbar.render(self.screen)
-
         self.screen.fillRect((255, 0, 0), (self.mouse.x - 5, self.mouse.y - 5, 10, 10))
-        self.screen.drawText("hue br", (0, 0, 0), (self.mouse.x, self.mouse.y))

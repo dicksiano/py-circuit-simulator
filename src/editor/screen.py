@@ -17,7 +17,9 @@ class Screen:
         (x, y) = pos
         text_surface = self.font.render(string, True, color)
         text_bounds = text_surface.get_bounding_rect()
-        self.surface.blit(text_surface, (x - text_bounds.x, y - text_bounds.y - text_bounds.height))
+        text_x = x - text_bounds.x
+        text_y = y - text_bounds.y - text_bounds.height
+        self.surface.blit(text_surface, (text_x, text_y))
 
     def drawTextCentered(self, string, color, rect):
         (x, y, width, height) = rect
@@ -26,3 +28,6 @@ class Screen:
         text_x = x + (width - text_bounds.width) / 2 - text_bounds.x
         text_y = y + (height - text_bounds.height) / 2 - text_bounds.y
         self.surface.blit(text_surface, (text_x, text_y))
+
+    def drawImage(image, pos):
+        pass
