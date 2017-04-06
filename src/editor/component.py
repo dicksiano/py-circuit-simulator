@@ -18,6 +18,9 @@ class Component:
     def on_mouse_click(self, x, y, button):
         pass
 
+    def on_mouse_hold(self, x, y):
+        pass
+
     def on_mouse_enter(self):
         pass
     
@@ -45,8 +48,11 @@ class Component:
                 self.on_mouse_click(mouse.x, mouse.y, mouse.BUTTON_LEFT)
             if mouse.right_button and not mouse.prev_right_button:
                 self.on_mouse_click(mouse.x, mouse.y, mouse.BUTTON_RIGHT)
+            if (mouse.x != mouse.prev_x or mouse.y != mouse.prev_y) and mouse.left_button:
+                self.on_mouse_hold(mouse.x, mouse.y)
             if mouse.x != mouse.prev_x or mouse.y != mouse.prev_y:
                 self.on_mouse_move(mouse.x, mouse.y)
+
 
     def render(self, screen):
         pass
