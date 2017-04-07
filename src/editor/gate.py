@@ -5,7 +5,7 @@ GATE_WIDTH = 60
 GATE_HEIGHT = 60
 
 class Gate(Component):
-    """Component that represent a logic gate"""
+    """Component that represents a logic gate"""
 
     def __init__(self, x, y, width, height, image):
         Component.__init__(self, x, y, width, height)
@@ -17,7 +17,7 @@ class Gate(Component):
         # First input
         self.first_input_x = x
         self.first_input_y = y + height * (1/3)
-        # First input
+        # Second input
         self.second_input_x = x
         self.second_input_y = y + height * (2/3)
 
@@ -28,8 +28,8 @@ class Gate(Component):
         pass
 
     def on_mouse_drag(self, x, y):
-        self.x = x // 32 * 32 - self.width / 2 + 16
-        self.y = y // 32 * 32 - self.height / 2 + 16
+        self.x = ((x // 32) * 32) - self.width / 2 + 16
+        self.y = ((y // 32) * 32) - self.height / 2 + 16
 
     def on_mouse_enter(self):
         pass
@@ -41,10 +41,9 @@ class Gate(Component):
         screen.draw_image(self.image, (self.x, self.y))
 
 class Gates(Component):
-    """Component that holds all the gates"""
+    """Collection of all the gates"""
 
     def __init__(self):
-
         self.gates = []
 
     def add_gate(self, x, y, width, height, image):
@@ -55,7 +54,7 @@ class Gates(Component):
             gate.update(mouse_pos)
 
     def render(self, screen):
-        for gate in reversed(self.gates): # reversed() so things dragged first
-            gate.render(screen)           # are on the front
+        for gate in reversed(self.gates): # reversed() so things that are
+            gate.render(screen)           # dragged first are on the front
 
 
