@@ -27,7 +27,7 @@ class Gate(Component):
     def on_mouse_click(self, x, y, button):
         pass
 
-    def on_mouse_hold(self, x, y):
+    def on_mouse_drag(self, x, y):
         self.x = x - self.width / 2
         self.y = y - self.height / 2
 

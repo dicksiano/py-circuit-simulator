@@ -10,6 +10,7 @@ class Component:
         self.height = height
 
         self._mouse_in_bounds = False
+        self._mouse_dragging = False
 
     # EVENT HANDLING
     def on_mouse_move(self, x, y):
@@ -18,7 +19,7 @@ class Component:
     def on_mouse_click(self, x, y, button):
         pass
 
-    def on_mouse_hold(self, x, y):
+    def on_mouse_drag(self, x, y):
         pass
 
     def on_mouse_enter(self):
@@ -48,10 +49,19 @@ class Component:
                 self.on_mouse_click(mouse.x, mouse.y, mouse.BUTTON_LEFT)
             if mouse.right_button and not mouse.prev_right_button:
                 self.on_mouse_click(mouse.x, mouse.y, mouse.BUTTON_RIGHT)
-            if (mouse.x != mouse.prev_x or mouse.y != mouse.prev_y) and mouse.left_button:
-                self.on_mouse_hold(mouse.x, mouse.y)
             if mouse.x != mouse.prev_x or mouse.y != mouse.prev_y:
                 self.on_mouse_move(mouse.x, mouse.y)
+            if (mouse.x != mouse.prev_x or mouse.y != mouse.prev_y) \
+                and mouse.left_button and not mouse.dragging:
+                self._mouse_dragging = True
+                mouse.dragging = True
+
+        if self._mouse_dragging:
+            if (mouse.x != mouse.prev_x or mouse.y != mouse.prev_y) and mouse.left_button:
+                self.on_mouse_drag(mouse.x, mouse.y)
+            if not mouse.left_button:
+                self._mouse_dragging = False
+                mouse.dragging = False
 
 
     def render(self, screen):

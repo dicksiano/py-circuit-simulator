@@ -14,6 +14,7 @@ class Mouse:
         self.y = 0
         self.left_button = False
         self.right_button = False
+        self.dragging = False
 
         # PREVIOUS STATE
         self.prev_x = 0

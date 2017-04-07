@@ -37,7 +37,7 @@ class ToolbarButton(Component):
         else:
             self.wires.add_wire()
 
-    def on_mouse_hold(self, x, y):
+    def on_mouse_drag(self, x, y):
         self.color = (50, 50, 50)
 
     def on_mouse_enter(self):

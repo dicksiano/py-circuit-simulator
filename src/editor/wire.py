@@ -23,7 +23,7 @@ class Wire(Component):
     def on_mouse_click(self, x, y, button):
         pass
 
-    def on_mouse_hold(self, x, y):
+    def on_mouse_drag(self, x, y):
         pass
 
     def on_mouse_enter(self):
