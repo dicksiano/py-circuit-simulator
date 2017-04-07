@@ -65,8 +65,7 @@ class Toolbar(Component):
         self.buttons = []
         for i, name in enumerate(["OR", "AND", "NOT", "NOR", "NAND", "XOR"]):
             self.buttons.append(ToolbarButton(i * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, name))
-        self.buttons.append(ToolbarButton(5 * BUTTON_WIDTH, BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT, "WIRE"))
-        
+
     def update(self, mouse_pos):
         for button in self.buttons:
             button.update(mouse_pos)
