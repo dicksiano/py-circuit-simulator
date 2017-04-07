@@ -12,14 +12,14 @@ class Gate(Component):
         self.image = image
 
         # Out
-        self.out_x = x + width;
-        self.out_y = y + height/2;
+        self.out_x = x + width
+        self.out_y = y + height/2
         # First input
-        self.first_input_x = x;
-        self.first_input_y = y + height * (1/3);
+        self.first_input_x = x
+        self.first_input_y = y + height * (1/3)
         # First input
-        self.second_input_x = x;
-        self.second_input_y = y + height * (2/3);
+        self.second_input_x = x
+        self.second_input_y = y + height * (2/3)
 
     def on_mouse_move(self, x, y):
         pass
