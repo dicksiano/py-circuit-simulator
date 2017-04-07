@@ -24,22 +24,23 @@ class ToolbarButton(Component):
 
         self.text = text
         self.color = (200, 200, 200)
-        self.click_count = 0
-        self.is_pressed = False
 
         self.gates = Gates()
         self.wires = Wires()
 
     def on_mouse_click(self, x, y, button):
         self.color = (50, 50, 50)
-        if(y <= BUTTON_HEIGHT):
+        if self.text in Gate:
             self.gates.add_gate(100, 100, 60, 60, Gate[self.text])
         else:
             # TODO implement this method!
             self.wires.add_wire()
 
-    def on_mouse_drag(self, x, y):
+    def on_mouse_down(self, x, y, button):
         self.color = (50, 50, 50)
+
+    def on_mouse_up(self, x, y, button):
+        self.color = (220, 220, 220)
 
     def on_mouse_enter(self):
         self.color = (220, 220, 220)
@@ -62,12 +63,8 @@ class Toolbar(Component):
         Component.__init__(self, 0, 0, 800, 50)
 
         self.buttons = []
-        self.buttons.append(ToolbarButton(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "OR"))
-        self.buttons.append(ToolbarButton(1 * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "AND"))
-        self.buttons.append(ToolbarButton(2 * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "NOT"))
-        self.buttons.append(ToolbarButton(3 * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "NOR"))
-        self.buttons.append(ToolbarButton(4 * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "NAND"))
-        self.buttons.append(ToolbarButton(5 * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "XOR"))
+        for i, name in enumerate(["OR", "AND", "NOT", "NOR", "NAND", "XOR"]):
+            self.buttons.append(ToolbarButton(i * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, name))
         self.buttons.append(ToolbarButton(5 * BUTTON_WIDTH, BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT, "WIRE"))
         
     def update(self, mouse_pos):
