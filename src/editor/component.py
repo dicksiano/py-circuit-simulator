@@ -80,6 +80,5 @@ class Component:
                 self._mouse_dragging = False
                 mouse.dragging = False
 
-
     def render(self, screen):
         pass

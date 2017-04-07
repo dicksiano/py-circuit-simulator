@@ -12,13 +12,10 @@ class Gate(Component):
         Component.__init__(self, x, y, width, height)
         self.image = image
 
-        # Out
         self.out_x = x + width
         self.out_y = y + height/2
-        # First input
         self.first_input_x = x
         self.first_input_y = y + height * (1/3)
-        # Second input
         self.second_input_x = x
         self.second_input_y = y + height * (2/3)
 
@@ -57,5 +54,3 @@ class Gates(Component):
     def render(self, screen):
         for gate in reversed(self.gates): # reversed() so things that are
             gate.render(screen)           # dragged first are on the front
-
-
