@@ -68,7 +68,6 @@ class Toolbar(Component):
         self.buttons.append(ToolbarButton(3 * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "NOR"))
         self.buttons.append(ToolbarButton(4 * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "NAND"))
         self.buttons.append(ToolbarButton(5 * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "XOR"))
-        self.buttons.append(ToolbarButton(5 * BUTTON_WIDTH, BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT, "WIRE"))
         
     def update(self, mouse_pos):
         for button in self.buttons:
