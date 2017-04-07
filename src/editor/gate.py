@@ -3,6 +3,7 @@ from src.editor.component import Component
 # CONSTANTS
 GATE_WIDTH = 60
 GATE_HEIGHT = 60
+GRID_SIZE = 21 # change to 32 later
 
 class Gate(Component):
     """Component that represents a logic gate"""
@@ -28,8 +29,8 @@ class Gate(Component):
         pass
 
     def on_mouse_drag(self, x, y):
-        self.x = ((x // 32) * 32) - self.width / 2 + 16
-        self.y = max(50, ((y // 32) * 32) - self.height / 2 + 16) # FIXME hardcoded toolbar height
+        self.x = ((x // 21) * 21) - self.width / 2 + 16
+        self.y = max(50, ((y // 21) * 21) - self.height / 2 + 16) # FIXME hardcoded toolbar height
 
     def on_mouse_enter(self):
         pass
