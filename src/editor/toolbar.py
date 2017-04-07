@@ -35,6 +35,7 @@ class ToolbarButton(Component):
         if(y <= BUTTON_HEIGHT):
             self.gates.add_gate(100, 100, 60, 60, Gate[self.text])
         else:
+            # TODO implement this method!
             self.wires.add_wire()
 
     def on_mouse_drag(self, x, y):
