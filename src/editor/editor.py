@@ -1,6 +1,7 @@
 from src.editor.mouse import Mouse
 from src.editor.screen import Screen
 from src.editor.toolbar import Toolbar
+from src.editor.assets import Assets
 
 class Editor:
     """GUI that interacts with the user to create and modify digital circuits"""
@@ -32,9 +33,8 @@ class Editor:
         self.mouse.update()
 
     def render(self):
-        #for block in self.blocks:
-            #self.screen.fillRect((0, 255, 0), (block[0] - 5, block[1] - 5, 10, 10))
-            #self.screen.drawImageCentered("port_xor2", (block[0] - 5, block[1] - 5, 10, 10))
+        image = Assets["dot_pattern"]
+        rect = image.get_rect()
+        self.screen.surface.blit(image, (0, 50, rect.width, rect.height))
+
         self.toolbar.render(self.screen)
-        #self.screen.fillRect((255, 0, 0), (self.mouse.x - 5, self.mouse.y - 5, 10, 10))
-        #self.screen.drawImageCentered("port_not", (self.mouse.x, self.mouse.y))
