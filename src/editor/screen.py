@@ -12,10 +12,10 @@ class Screen:
 
         self.font = pygame.font.Font(os.path.join('res', 'open-sans.ttf'), 20)
 
-    def fillRect(self, color, rect):
+    def fill_rect(self, color, rect):
         pygame.draw.rect(self.surface, color, rect)
 
-    def drawText(self, string, color, pos):
+    def draw_text(self, string, color, pos):
         (x, y) = pos
         text_surface = self.font.render(string, True, color)
         text_bounds = text_surface.get_bounding_rect()
@@ -23,7 +23,7 @@ class Screen:
         text_y = y - text_bounds.y - text_bounds.height
         self.surface.blit(text_surface, (text_x, text_y))
 
-    def drawTextCentered(self, string, color, rect):
+    def draw_text_centered(self, string, color, rect):
         (x, y, width, height) = rect
         text_surface = self.font.render(string, True, color)
         text_bounds = text_surface.get_bounding_rect()
@@ -31,13 +31,16 @@ class Screen:
         text_y = y + (height - text_bounds.height) / 2 - text_bounds.y
         self.surface.blit(text_surface, (text_x, text_y))
 
-    def drawImage(self, image_name, pos):
+    def draw_image(self, image_name, pos):
         image = Assets[image_name]
         rect = image.get_rect()
         self.surface.blit(image, (rect.x + pos[0], rect.y + pos[1], rect.width, rect.height))
     
-    def drawImageCentered(self, image_name, pos):
+    def draw_image_centered(self, image_name, pos):
         image = Assets[image_name]
         rect = image.get_rect()
         self.surface.blit(image, (rect.x + pos[0] - rect.width/2, \
             rect.y + pos[1] - rect.height/2,rect.width, rect.height))
+
+    def draw_line(self, color, xStart, yStart, xEnd, yEnd, width):
+        pygame.draw.line(self.surface, color, (xStart, yStart), (xEnd, yEnd), width)

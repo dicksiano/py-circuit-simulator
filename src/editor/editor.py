@@ -1,7 +1,6 @@
 from src.editor.mouse import Mouse
 from src.editor.screen import Screen
 from src.editor.toolbar import Toolbar
-from src.editor.gate import Gates
 
 class Editor:
     """GUI that interacts with the user to create and modify digital circuits"""
@@ -11,7 +10,6 @@ class Editor:
         self.mouse = Mouse()
         self.screen = Screen(surface)
         self.toolbar = Toolbar()
-        self.gates = Gates()
 
         self.blocks = []
 
@@ -29,7 +27,8 @@ class Editor:
     # GAME LOOP
     def update(self):
         self.toolbar.update(self.mouse)
-        self.gates.update(self.mouse)
+        for button in self.toolbar.buttons:
+            button.gates.update(self.mouse)
         self.mouse.update()
 
     def render(self):
@@ -37,6 +36,5 @@ class Editor:
             #self.screen.fillRect((0, 255, 0), (block[0] - 5, block[1] - 5, 10, 10))
             #self.screen.drawImageCentered("port_xor2", (block[0] - 5, block[1] - 5, 10, 10))
         self.toolbar.render(self.screen)
-        self.gates.render(self.screen)
         #self.screen.fillRect((255, 0, 0), (self.mouse.x - 5, self.mouse.y - 5, 10, 10))
         #self.screen.drawImageCentered("port_not", (self.mouse.x, self.mouse.y))

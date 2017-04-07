@@ -38,12 +38,7 @@ class Gate(Component):
         pass
 
     def render(self, screen):
-        screen.drawImage(self.image, (self.x, self.y))
-        # Just for debug!
-        # screen.fillRect((0, 255, 0), (self.connection_x, self.connection_y, 3, 3))
-        #screen.fillRect((0, 255, 0), (self.second_input_x, self.second_input_y, 3, 3))
-        # screen.fillRect((0, 255, 0), (self.connection_x, self.connection_y, 3, 3))
-
+        screen.draw_image(self.image, (self.x, self.y))
 
 class Gates(Component):
     """Component that holds all the gates"""
@@ -51,12 +46,9 @@ class Gates(Component):
     def __init__(self):
 
         self.gates = []
-        self.gates.append(Gate(0, 100, GATE_WIDTH, GATE_HEIGHT, "port_and2"))
-        #self.gates.append(Gate(50, 150, GATE_WIDTH, GATE_HEIGHT, "port_nand2"))
-        #self.gates.append(Gate(50, 200, GATE_WIDTH, GATE_HEIGHT, "port_nor2"))
-        #self.gates.append(Gate(50, 250, GATE_WIDTH, GATE_HEIGHT, "port_not"))
-        #self.gates.append(Gate(50, 300, GATE_WIDTH, GATE_HEIGHT, "port_or2"))
-        #self.gates.append(Gate(50, 350, GATE_WIDTH, GATE_HEIGHT, "port_xor2"))
+
+    def add_gate(self, x, y, width, height, image):
+        self.gates.append(Gate(x, y, width, height, image))
 
     def update(self, mouse_pos):
         for gate in self.gates:

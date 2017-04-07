@@ -1,4 +1,6 @@
 from src.editor.component import Component
+from src.editor.gate import Gates
+from src.editor.wire import Wires
 
 # Map from button to it's gates asset
 Gate = {
@@ -9,6 +11,10 @@ Gate = {
     "OR": "port_or2",
     "XOR": "port_xor2"
 }
+
+# CONSTANTS
+BUTTON_WIDTH = 128
+BUTTON_HEIGHT = 50
 
 class ToolbarButton(Component):
     """A clickable button of the toolbar"""
@@ -21,11 +27,15 @@ class ToolbarButton(Component):
         self.click_count = 0
         self.is_pressed = False
 
+        self.gates = Gates()
+        self.wires = Wires()
+
     def on_mouse_click(self, x, y, button):
         self.color = (50, 50, 50)
-        # TODO
-        # add new gates
-        #append(Gate(100, 100, 60, 60, Gate[self.text]))
+        if(y <= BUTTON_HEIGHT):
+            self.gates.add_gate(100, 100, 60, 60, Gate[self.text])
+        else:
+            self.wires.add_wire()
 
     def on_mouse_hold(self, x, y):
         self.color = (50, 50, 50)
@@ -38,8 +48,11 @@ class ToolbarButton(Component):
     
     def render(self, screen):
         bounds = (self.x, self.y, self.width, self.height)
-        screen.fillRect(self.color, bounds)
-        screen.drawTextCentered(self.text, (0, 0, 0), bounds)
+        screen.fill_rect(self.color, bounds)
+        screen.draw_text_centered(self.text, (0, 0, 0), bounds)
+        self.gates.render(screen)
+        self.wires.render(screen)
+
 
 class Toolbar(Component):
     """Component that holds arrays of buttons for the UI"""
@@ -48,12 +61,13 @@ class Toolbar(Component):
         Component.__init__(self, 0, 0, 800, 50)
 
         self.buttons = []
-        self.buttons.append(ToolbarButton(0, 0, 128, 50, "OR"))
-        self.buttons.append(ToolbarButton(128, 0, 128, 50, "AND"))
-        self.buttons.append(ToolbarButton(256, 0, 128, 50, "NOT"))
-        self.buttons.append(ToolbarButton(384, 0, 128, 50, "NOR"))
-        self.buttons.append(ToolbarButton(512, 0, 128, 50, "NAND"))
-        self.buttons.append(ToolbarButton(640, 0, 128, 50, "XOR"))
+        self.buttons.append(ToolbarButton(0, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "OR"))
+        self.buttons.append(ToolbarButton(1 * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "AND"))
+        self.buttons.append(ToolbarButton(2 * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "NOT"))
+        self.buttons.append(ToolbarButton(3 * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "NOR"))
+        self.buttons.append(ToolbarButton(4 * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "NAND"))
+        self.buttons.append(ToolbarButton(5 * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, "XOR"))
+        self.buttons.append(ToolbarButton(5 * BUTTON_WIDTH, BUTTON_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT, "WIRE"))
         
     def update(self, mouse_pos):
         for button in self.buttons:
