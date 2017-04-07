@@ -28,8 +28,8 @@ class Gate(Component):
         pass
 
     def on_mouse_drag(self, x, y):
-        self.x = x - self.width / 2
-        self.y = y - self.height / 2
+        self.x = x // 32 * 32 - self.width / 2 + 16
+        self.y = y // 32 * 32 - self.height / 2 + 16
 
     def on_mouse_enter(self):
         pass
