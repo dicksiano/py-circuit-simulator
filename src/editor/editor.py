@@ -12,8 +12,6 @@ class Editor:
         self.screen = Screen(surface)
         self.toolbar = Toolbar()
 
-        self.blocks = []
-
     # EVENT HANDLING
     def on_mouse_move(self, x, y):
         self.mouse.on_mouse_move(x, y)
@@ -23,7 +21,6 @@ class Editor:
     
     def on_mouse_up(self, x, y, button):
         self.mouse.on_mouse_up(x, y, button)
-        self.blocks.append((x, y))
     
     # GAME LOOP
     def update(self):
@@ -33,8 +30,5 @@ class Editor:
         self.mouse.update()
 
     def render(self):
-        image = Assets["dot_pattern"]
-        rect = image.get_rect()
-        self.screen.surface.blit(image, (0, 50, rect.width, rect.height))
-
+        self.screen.draw_image("dot_pattern", (0, 50))
         self.toolbar.render(self.screen)
