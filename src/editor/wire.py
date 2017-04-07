@@ -11,11 +11,11 @@ class Wire(Component):
         Component.__init__(self, xStart, yStart, 0, 0)
 
         # Start
-        self.xStart = xStart;
-        self.yStart = yStart;
+        self.xStart = xStart
+        self.yStart = yStart
         # First input
-        self.xEnd = xEnd;
-        self.yEnd = yEnd;
+        self.xEnd = xEnd
+        self.yEnd = yEnd
 
     def on_mouse_move(self, x, y):
         pass
