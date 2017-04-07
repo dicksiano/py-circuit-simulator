@@ -19,6 +19,12 @@ class Component:
     def on_mouse_click(self, x, y, button):
         pass
 
+    def on_mouse_down(self, x, y, button):
+        pass
+
+    def on_mouse_up(self, x, y, button):
+        pass
+
     def on_mouse_drag(self, x, y):
         pass
 
@@ -46,9 +52,20 @@ class Component:
         
         if mouse_in_bounds:
             if mouse.left_button and not mouse.prev_left_button:
+                self.on_mouse_down(mouse.x, mouse.y, mouse.BUTTON_LEFT)
+            if mouse.right_button and not mouse.prev_right_button:
+                self.on_mouse_down(mouse.x, mouse.y, mouse.BUTTON_RIGHT)
+
+            if mouse.left_button and not mouse.prev_left_button:
                 self.on_mouse_click(mouse.x, mouse.y, mouse.BUTTON_LEFT)
             if mouse.right_button and not mouse.prev_right_button:
                 self.on_mouse_click(mouse.x, mouse.y, mouse.BUTTON_RIGHT)
+
+            if not mouse.left_button and mouse.prev_left_button:
+                self.on_mouse_up(mouse.x, mouse.y, mouse.BUTTON_LEFT)
+            if not mouse.right_button and mouse.prev_right_button:
+                self.on_mouse_up(mouse.x, mouse.y, mouse.BUTTON_RIGHT)
+            
             if mouse.x != mouse.prev_x or mouse.y != mouse.prev_y:
                 self.on_mouse_move(mouse.x, mouse.y)
             if (mouse.x != mouse.prev_x or mouse.y != mouse.prev_y) \
