@@ -10,7 +10,7 @@ class Screen:
         self.width = surface.get_width()
         self.height = surface.get_height()
 
-        self.font = pygame.font.Font(os.path.join('res', 'open-sans.ttf'), 20)
+        self.font = pygame.font.Font(os.path.join("res", "open-sans.ttf"), 20)
 
     def fill_rect(self, color, rect):
         pygame.draw.rect(self.surface, color, rect)
