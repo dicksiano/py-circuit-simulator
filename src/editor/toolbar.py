@@ -13,8 +13,7 @@ Gate = {
 }
 
 # CONSTANTS
-BUTTON_WIDTH = 128
-BUTTON_HEIGHT = 50
+TOOLBAR_HEIGHT = 50
 
 class ToolbarButton(Component):
     """A clickable button of the toolbar"""
@@ -63,8 +62,10 @@ class Toolbar(Component):
         Component.__init__(self, 0, 0, 800, 50)
 
         self.buttons = []
-        for i, name in enumerate(["OR", "AND", "NOT", "NOR", "NAND", "XOR"]):
-            self.buttons.append(ToolbarButton(i * BUTTON_WIDTH, 0, BUTTON_WIDTH, BUTTON_HEIGHT, name))
+        button_names = ["OR", "AND", "NOT", "NOR", "NAND", "XOR"]
+        button_width = 800 // len(button_names) # FIXME hardcoded screen width
+        for i, name in enumerate(button_names):
+            self.buttons.append(ToolbarButton(i * button_width, 0, button_width, TOOLBAR_HEIGHT, name))
 
     def update(self, mouse_pos):
         for button in self.buttons:
