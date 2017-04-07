@@ -4,26 +4,21 @@ from pygame.locals import *
 from src.editor.editor import Editor
 
 # CONSTANTS
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
+SCREEN_SIZE = (800, 600)
 
 # INIT
-os.environ['SDL_VIDEO_CENTERED'] = '1'
-pygame.init()
-pygame.font.init()
-surface = pygame.display.set_mode( (SCREEN_WIDTH, SCREEN_HEIGHT) )
-pygame.display.set_caption("Circuit Simulator")
+os.environ['SDL_VIDEO_CENTERED'] = '1'          # centers the window at startup
+pygame.init()                                   # loads up pygame
+pygame.font.init()                              # loads up the pygame font module
+clock = pygame.time.Clock()                     # instantiates a pygame timer
+surface = pygame.display.set_mode(SCREEN_SIZE)  # sets ups the screen size
+pygame.display.set_caption("Circuit Simulator") # sets up the screen title
 
-# ASSETS
-#IMAGE_PORT_NOT = pygame.image.load(os.path.join('res', 'port_not.png'))
-#screen.blit(IMAGE_PORT_NOT, IMAGE_PORT_NOT.get_rect())
-
-clock = pygame.time.Clock()
-editor = Editor(surface)
+editor = Editor(surface)                        # instantiates the GUI
 
 while True:
     # EVENT QUEUE
-    for event in pygame.event.get():
+    for event in pygame.event.get(): # fowards events to event handling codepaths
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
@@ -43,4 +38,4 @@ while True:
     pygame.display.flip()
 
     # FPS CAP
-    clock.tick(60)
+    clock.tick(60)                   # caps at 60 updates and renders per second
