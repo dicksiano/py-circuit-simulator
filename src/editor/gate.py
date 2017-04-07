@@ -55,7 +55,7 @@ class Gates(Component):
             gate.update(mouse_pos)
 
     def render(self, screen):
-        for gate in self.gates:
-            gate.render(screen)
+        for gate in reversed(self.gates): # reversed() so things dragged first
+            gate.render(screen)           # are on the front
 
 

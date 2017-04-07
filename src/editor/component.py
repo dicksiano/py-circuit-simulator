@@ -32,8 +32,8 @@ class Component:
     def update(self, mouse):
         last_mouse_in_bounds = self._mouse_in_bounds
 
-        if self.x <= mouse.x <= self.x + self.width \
-            and self.y <= mouse.y <= self.y + self.height:
+        if self.x <= mouse.x < self.x + self.width \
+            and self.y <= mouse.y < self.y + self.height:
             mouse_in_bounds = True
         else:
             mouse_in_bounds = False
