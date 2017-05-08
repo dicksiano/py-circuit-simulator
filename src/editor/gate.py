@@ -63,10 +63,10 @@ class Input(Pin):
         self.isOnMouse = False
 
     def render(self, screen):
-        if self.isOnMouse:
-            screen.draw_circle(IS_ON_MOUSE_COLOR, self.x, self.y, 7, 3)
+        if self.isOnMouse or self.gate.isOnMouse:
+            screen.draw_circle(IS_ON_MOUSE_COLOR, self.x, self.y, 7, 4)
         elif self.isSelected:
-            screen.draw_circle(IS_SELECTED_COLOR, self.x, self.y, 7, 3)
+            screen.draw_circle(IS_SELECTED_COLOR, self.x, self.y, 7, 4)
 
 class Output(Pin):
     """Component that represents the output of a logic gate"""
@@ -97,10 +97,10 @@ class Output(Pin):
         self.isOnMouse = False
 
     def render(self, screen):
-        if self.isOnMouse:
-            screen.draw_circle(IS_ON_MOUSE_COLOR, self.x, self.y, 7, 3)
+        if self.isOnMouse or self.gate.isOnMouse:
+            screen.draw_circle(IS_ON_MOUSE_COLOR, self.x, self.y, 7, 4)
         elif self.isSelected:
-            screen.draw_circle(IS_SELECTED_COLOR, self.x, self.y, 7, 3)
+            screen.draw_circle(IS_SELECTED_COLOR, self.x, self.y, 7, 4)
 
 class Gate(Component):
     """Component that represents a logic gate"""
@@ -108,6 +108,8 @@ class Gate(Component):
     def __init__(self, x, y, width, height, image, editor):
         Component.__init__(self, x, y, width, height, editor)
         self.image = image
+
+        self.isOnMouse = False
 
         self.first_input = Input(x, y + height * (1/3), 10, 10, editor, self)
         self.second_input = Input(x, y + height * (2/3), 10, 10, editor, self)
@@ -125,21 +127,22 @@ class Gate(Component):
         self.second_input.y = self.y + self.height * (2 / 3)
 
     def on_mouse_move(self, x, y):
-        pass
+        self.isOnMouse = True
 
     def on_mouse_click(self, x, y, button):
-        pass
+        self.isOnMouse = True
 
     def on_mouse_drag(self, x, y):
+        self.isOnMouse = True
         self.x = ((x // 16) * 16) #- self.width / 2 + 16
         self.y = max(43, ((y // 16) * 16 + 11)) # FIXME hardcoded toolbar height
         self.update_in_out()
 
     def on_mouse_enter(self):
-        pass
+        self.isOnMouse = False
 
     def on_mouse_exit(self):
-        pass
+        self.isOnMouse = False
 
     def render(self, screen):
         screen.draw_image(self.image, (self.x, self.y))
