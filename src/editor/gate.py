@@ -4,7 +4,10 @@ from src.editor.component import Component
 GATE_WIDTH = 65
 GATE_HEIGHT = 47
 GRID_SIZE = 16 # change to 32 later
-DELTA = 10
+PIN_RADIUS = 7
+PIN_DIAMETER = 14
+IN_DELTA = 5
+OUT_DELTA = 3
 
 IS_ON_MOUSE_COLOR = (0, 200, 0)
 IS_SELECTED_COLOR = (0, 0, 200)
@@ -14,7 +17,7 @@ class Pin(Component):
     """Component that represents input or output of a logic gate"""
 
     def __init__(self, x, y, width, height, editor, gate):
-        Component.__init__(self, x, y, width, height, editor)
+        Component.__init__(self, x - width/2, y - height/2, width, height, editor)
         self.gate = gate
 
     def on_mouse_move(self, x, y):
@@ -38,7 +41,7 @@ class Input(Pin):
     """Component that represents a input of a logic gate"""
 
     def __init__(self, x, y, width, height, editor, gate):
-        Pin.__init__(self, x - DELTA, y, width, height, editor, gate)
+        Pin.__init__(self, x - IN_DELTA, y, width, height, editor, gate)
         self.isOnMouse = False
         self.isSelected = False
 
@@ -64,15 +67,15 @@ class Input(Pin):
 
     def render(self, screen):
         if self.isOnMouse or self.gate.isOnMouse:
-            screen.draw_circle(IS_ON_MOUSE_COLOR, self.x, self.y, 7, 4)
+            screen.draw_circle(IS_ON_MOUSE_COLOR, self.x + self.width/2, self.y + self.height/2, PIN_RADIUS, 4)
         elif self.isSelected:
-            screen.draw_circle(IS_SELECTED_COLOR, self.x, self.y, 7, 4)
+            screen.draw_circle(IS_SELECTED_COLOR, self.x + self.width/2, self.y + self.height/2, PIN_RADIUS, 4)
 
 class Output(Pin):
     """Component that represents the output of a logic gate"""
 
     def __init__(self, x, y, width, height, editor, gate):
-        Pin.__init__(self, x + DELTA, y, width, height, editor, gate)
+        Pin.__init__(self, x + OUT_DELTA, y, width, height, editor, gate)
         self.isOnMouse = False
         self.isSelected = False
 
@@ -98,9 +101,9 @@ class Output(Pin):
 
     def render(self, screen):
         if self.isOnMouse or self.gate.isOnMouse:
-            screen.draw_circle(IS_ON_MOUSE_COLOR, self.x, self.y, 7, 4)
+            screen.draw_circle(IS_ON_MOUSE_COLOR, self.x + self.width/2, self.y + self.height/2, PIN_RADIUS, 4)
         elif self.isSelected:
-            screen.draw_circle(IS_SELECTED_COLOR, self.x, self.y, 7, 4)
+            screen.draw_circle(IS_SELECTED_COLOR, self.x + self.width/2, self.y + self.height/2, PIN_RADIUS, 4)
 
 class Gate(Component):
     """Component that represents a logic gate"""
@@ -111,20 +114,20 @@ class Gate(Component):
 
         self.isOnMouse = False
 
-        self.first_input = Input(x, y + height * (1/3), 10, 10, editor, self)
-        self.second_input = Input(x, y + height * (2/3), 10, 10, editor, self)
+        self.first_input = Input(x, y + height * (1 / 3), PIN_DIAMETER, PIN_DIAMETER, editor, self)
+        self.second_input = Input(x, y + height * (2 / 3), PIN_DIAMETER, PIN_DIAMETER, editor, self)
 
-        self.output = Output(x + width, y + height/2, 10, 10, editor, self)
+        self.output = Output(x + width, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
 
     def update_in_out(self):  # Update I/O
-        self.output.x = self.x + DELTA + self.width
-        self.output.y = self.y + self.height / 2
+        self.output.x = self.x + OUT_DELTA + self.width - self.output.width/2
+        self.output.y = self.y + self.height / 2 - self.output.height/2
 
-        self.first_input.x = self.x - DELTA
-        self.first_input.y = self.y + self.height * (1 / 3)
+        self.first_input.x = self.x - IN_DELTA - self.output.width/2
+        self.first_input.y = self.y + self.height * (1 / 3) - self.output.height/2
 
-        self.second_input.x = self.x - DELTA
-        self.second_input.y = self.y + self.height * (2 / 3)
+        self.second_input.x = self.x - IN_DELTA - self.output.width/2
+        self.second_input.y = self.y + self.height * (2 / 3) - self.output.height/2
 
     def on_mouse_move(self, x, y):
         self.isOnMouse = True

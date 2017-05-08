@@ -28,7 +28,9 @@ class Wire(Component):
         pass
 
     def render(self, screen):
-        screen.draw_line(WIRE_COLOR, self.output.x, self.output.y, self.input.x, self.input.y, WIRE_WIDTH)
+        screen.draw_line(WIRE_COLOR, self.output.x + self.output.width/2,
+                         self.output.y + self.output.height/2, self.input.x + self.input.width/2,
+                         self.input.y + self.input.height/2, WIRE_WIDTH)
 
 
 class Wires(Component):
