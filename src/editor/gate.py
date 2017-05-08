@@ -46,11 +46,11 @@ class Input(IO):
             self.isOnMouse = True
 
     def on_mouse_click(self, x, y, button):
-        self.isOnMouse = False
-        self.isSelected = True
-
         if not len(self.editor.wires.wire_start) == 0:
             self.editor.wires.add_wire(self)
+
+            self.isOnMouse = False
+            self.isSelected = True
 
     def on_mouse_drag(self, x, y):
         self.isOnMouse = False
