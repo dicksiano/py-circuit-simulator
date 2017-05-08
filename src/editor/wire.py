@@ -7,15 +7,10 @@ WIRE_COLOR = (150, 200, 200)
 class Wire(Component):
     """Component that represent a logic gate"""
 
-    def __init__(self, xStart, yStart, xEnd, yEnd, editor):
-        Component.__init__(self, xStart, yStart, 0, 0, editor)
-
-        # Start
-        self.xStart = xStart
-        self.yStart = yStart
-        # First input
-        self.xEnd = xEnd
-        self.yEnd = yEnd
+    def __init__(self, output, input, editor):
+        Component.__init__(self, output.x, output.y, 0, 0, editor)
+        self.output = output
+        self.input = input
 
     def on_mouse_move(self, x, y):
         pass
@@ -33,7 +28,7 @@ class Wire(Component):
         pass
 
     def render(self, screen):
-        screen.draw_line(WIRE_COLOR, self.xStart, self.yStart, self.xEnd, self.yEnd, WIRE_WIDTH)
+        screen.draw_line(WIRE_COLOR, self.output.x, self.output.y, self.input.x, self.input.y, WIRE_WIDTH)
 
 
 class Wires(Component):
@@ -45,13 +40,11 @@ class Wires(Component):
 
         self.wire_start = []
 
-    def add_wire(self, x, y):
+    def add_wire(self, io):
         if len(self.wire_start) == 0:
-            self.wire_start.append(x)
-            self.wire_start.append(y)
+            self.wire_start.append(io)
         else:
-            self.wires.append(Wire(self.wire_start[0], self.wire_start[1], x, y, self.editor))
-            print("x = {0} y = {1} x = {2} y = {3}".format(self.wire_start[0], self.wire_start[1], x, y,))
+            self.wires.append(Wire(self.wire_start[0], io, self.editor))
             self.wire_start.clear()
 
 

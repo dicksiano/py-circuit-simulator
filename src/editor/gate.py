@@ -6,18 +6,41 @@ GATE_HEIGHT = 47
 GRID_SIZE = 16 # change to 32 later
 DELTA = 10
 
-class Input(Component):
+class IO(Component):
+    """Component that represents input or output of a logic gate"""
+
+    def __init__(self, x, y, width, height, editor):
+        Component.__init__(self, x, y, width, height, editor)
+
+    def on_mouse_move(self, x, y):
+        pass
+
+    def on_mouse_click(self, x, y, button):
+        pass
+    def on_mouse_drag(self, x, y):
+        pass
+
+    def on_mouse_enter(self):
+        pass
+
+    def on_mouse_exit(self):
+        pass
+
+    def render(self, screen):
+        pass
+
+class Input(IO):
     """Component that represents a input of a logic gate"""
 
     def __init__(self, x, y, width, height, editor):
-        Component.__init__(self, x - DELTA, y, width, height, editor)
+        IO.__init__(self, x - DELTA, y, width, height, editor)
 
     def on_mouse_move(self, x, y):
         pass
 
     def on_mouse_click(self, x, y, button):
         if not len(self.editor.wires.wire_start) == 0:
-            self.editor.wires.add_wire(x, y)
+            self.editor.wires.add_wire(self)
 
     def on_mouse_drag(self, x, y):
         pass
@@ -31,18 +54,18 @@ class Input(Component):
     def render(self, screen):
         screen.fill_rect((0, 255, 0), (self.x, self.y, 10, 10))
 
-class Output(Component):
+class Output(IO):
     """Component that represents the output of a logic gate"""
 
     def __init__(self, x, y, width, height, editor):
-        Component.__init__(self, x + DELTA, y, width, height, editor)
+        IO.__init__(self, x + DELTA, y, width, height, editor)
 
     def on_mouse_move(self, x, y):
         pass
 
     def on_mouse_click(self, x, y, button):
         if len(self.editor.wires.wire_start) == 0:
-            self.editor.wires.add_wire(x, y)
+            self.editor.wires.add_wire(self)
 
     def on_mouse_drag(self, x, y):
         pass
