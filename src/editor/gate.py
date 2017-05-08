@@ -6,6 +6,10 @@ GATE_HEIGHT = 47
 GRID_SIZE = 16 # change to 32 later
 DELTA = 10
 
+IS_ON_MOUSE_COLOR = (0, 200, 0)
+IS_SELECTED_COLOR = (0, 0, 200)
+
+
 class IO(Component):
     """Component that represents input or output of a logic gate"""
 
@@ -34,50 +38,68 @@ class Input(IO):
 
     def __init__(self, x, y, width, height, editor):
         IO.__init__(self, x - DELTA, y, width, height, editor)
+        self.isOnMouse = False
+        self.isSelected = False
 
     def on_mouse_move(self, x, y):
-        pass
+        if not self.isSelected:
+            self.isOnMouse = True
 
     def on_mouse_click(self, x, y, button):
+        self.isOnMouse = False
+        self.isSelected = True
+
         if not len(self.editor.wires.wire_start) == 0:
             self.editor.wires.add_wire(self)
 
     def on_mouse_drag(self, x, y):
-        pass
+        self.isOnMouse = False
 
     def on_mouse_enter(self):
-        pass
+        self.isOnMouse = False
 
     def on_mouse_exit(self):
-        pass
+        self.isOnMouse = False
 
     def render(self, screen):
-        screen.fill_rect((0, 255, 0), (self.x, self.y, 10, 10))
+        if self.isOnMouse:
+            screen.fill_rect(IS_ON_MOUSE_COLOR, (self.x, self.y, 10, 10))
+        elif self.isSelected:
+            screen.fill_rect(IS_SELECTED_COLOR, (self.x, self.y, 10, 10))
 
 class Output(IO):
     """Component that represents the output of a logic gate"""
 
     def __init__(self, x, y, width, height, editor):
         IO.__init__(self, x + DELTA, y, width, height, editor)
+        self.isOnMouse = False
+        self.isSelected = False
 
     def on_mouse_move(self, x, y):
-        pass
+        if not self.isSelected:
+            self.isOnMouse = True
 
     def on_mouse_click(self, x, y, button):
+        self.isOnMouse = False
+        self.isSelected = True
+
         if len(self.editor.wires.wire_start) == 0:
             self.editor.wires.add_wire(self)
 
     def on_mouse_drag(self, x, y):
-        pass
+        self.isOnMouse = False
 
     def on_mouse_enter(self):
-        pass
+        self.isOnMouse = False
 
     def on_mouse_exit(self):
-        pass
+        self.isOnMouse = False
 
     def render(self, screen):
-        screen.fill_rect((0, 200, 0), (self.x, self.y, 10, 10))
+        if self.isOnMouse:
+            screen.fill_rect(IS_ON_MOUSE_COLOR, (self.x, self.y, 10, 10))
+        elif self.isSelected:
+            screen.fill_rect(IS_SELECTED_COLOR, (self.x, self.y, 10, 10))
 
 class Gate(Component):
     """Component that represents a logic gate"""
