@@ -38,5 +38,5 @@ class Editor:
     def render(self):
         self.screen.draw_image("dot_pattern", (0, 50))
         self.toolbar.render(self.screen)
-        self.gates.render(self.screen)
         self.wires.render(self.screen)
+        self.gates.render(self.screen)
