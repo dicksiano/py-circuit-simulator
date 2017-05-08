@@ -7,8 +7,8 @@ WIRE_COLOR = (200, 200, 200)
 class Wire(Component):
     """Component that represent a logic gate"""
 
-    def __init__(self, xStart, yStart, xEnd, yEnd):
-        Component.__init__(self, xStart, yStart, 0, 0)
+    def __init__(self, xStart, yStart, xEnd, yEnd, editor):
+        Component.__init__(self, xStart, yStart, 0, 0, editor)
 
         # Start
         self.xStart = xStart
@@ -39,8 +39,8 @@ class Wire(Component):
 class Wires(Component):
     """Component that holds all the gates"""
 
-    def __init__(self):
-
+    def __init__(self, editor):
+        self.editor = editor
         self.wires = []
 
     def add_wire(self):
@@ -48,10 +48,10 @@ class Wires(Component):
         # Get Start and End of the wire
         # How do that with the mouse?
 
-        self.wires.append(Wire(xStart, yStart, xEnd, yEnd))
+        self.wires.append(Wire(xStart, yStart, xEnd, yEnd, self.editor))
 
     def update(self, mouse_pos):
-        for wire in self.wiress:
+        for wire in self.wires:
             wire.update(mouse_pos)
 
     def render(self, screen):

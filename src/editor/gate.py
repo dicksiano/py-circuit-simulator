@@ -8,8 +8,8 @@ GRID_SIZE = 21 # change to 32 later
 class Gate(Component):
     """Component that represents a logic gate"""
 
-    def __init__(self, x, y, width, height, image):
-        Component.__init__(self, x, y, width, height)
+    def __init__(self, x, y, width, height, image, editor):
+        Component.__init__(self, x, y, width, height, editor)
         self.image = image
 
         self.out_x = x + width
@@ -41,11 +41,12 @@ class Gate(Component):
 class Gates(Component):
     """Collection of all the gates"""
 
-    def __init__(self):
+    def __init__(self, editor):
+        self.editor = editor
         self.gates = []
 
     def add_gate(self, x, y, width, height, image):
-        self.gates.append(Gate(x, y, width, height, image))
+        self.gates.append(Gate(x, y, width, height, image, self.editor))
 
     def update(self, mouse_pos):
         for gate in self.gates:

@@ -18,19 +18,16 @@ TOOLBAR_HEIGHT = 50
 class ToolbarButton(Component):
     """A clickable button of the toolbar"""
 
-    def __init__(self, x, y, width, height, text):
-        Component.__init__(self, x, y, width, height)
+    def __init__(self, x, y, width, height, text, editor):
+        Component.__init__(self, x, y, width, height, editor)
 
         self.text = text
         self.color = (200, 200, 200)
 
-        self.gates = Gates()
-        self.wires = Wires()
-
     def on_mouse_click(self, x, y, button):
         self.color = (50, 50, 50)
         if self.text in Gate:
-            self.gates.add_gate(100, 100, 60, 60, Gate[self.text])
+            self.editor.gates.add_gate(100, 100, 60, 60, Gate[self.text])
         else:
             # TODO implement this method!
             self.wires.add_wire()
@@ -51,21 +48,19 @@ class ToolbarButton(Component):
         bounds = (self.x, self.y, self.width, self.height)
         screen.fill_rect(self.color, bounds)
         screen.draw_text_centered(self.text, (0, 0, 0), bounds)
-        self.gates.render(screen)
-        self.wires.render(screen)
 
 
 class Toolbar(Component):
     """Component that holds arrays of buttons for the UI"""
 
-    def __init__(self):
-        Component.__init__(self, 0, 0, 800, 50)
+    def __init__(self, editor):
+        Component.__init__(self, 0, 0, 800, 50, editor)
 
         self.buttons = []
         button_names = ["OR", "AND", "NOT", "NOR", "NAND", "XOR"]
         button_width = 800 // len(button_names) # FIXME hardcoded screen width
         for i, name in enumerate(button_names):
-            self.buttons.append(ToolbarButton(i * button_width, 0, button_width, TOOLBAR_HEIGHT, name))
+            self.buttons.append(ToolbarButton(i * button_width, 0, button_width, TOOLBAR_HEIGHT, name, editor))
 
     def update(self, mouse_pos):
         for button in self.buttons:

@@ -1,9 +1,9 @@
-
 class Component:
     """Abstract class for objects that are drawn on the screen and interact with the mouse"""
 
     # CONSTRUCTOR
-    def __init__(self, x, y, width, height):
+    def __init__(self, x, y, width, height, editor):
+        self.editor = editor
         self.x = x
         self.y = y
         self.width = width

@@ -1,16 +1,21 @@
 from src.editor.mouse import Mouse
 from src.editor.screen import Screen
 from src.editor.toolbar import Toolbar
-from src.editor.assets import Assets
+from src.editor.gate import Gates
+from src.editor.wire import Wires
 
 class Editor:
     """GUI that interacts with the user to create and modify digital circuits"""
+
+
 
     # CONSTRUCTOR
     def __init__(self, surface):
         self.mouse = Mouse()
         self.screen = Screen(surface)
-        self.toolbar = Toolbar()
+        self.toolbar = Toolbar(self)
+        self.gates = Gates(self)
+        self.wires = Wires(self)
 
     # EVENT HANDLING
     def on_mouse_move(self, x, y):
@@ -25,10 +30,13 @@ class Editor:
     # GAME LOOP
     def update(self):
         self.toolbar.update(self.mouse)
-        for button in self.toolbar.buttons:
-            button.gates.update(self.mouse)
+        self.gates.update(self.mouse)
+        self.wires.update(self.mouse)
+
         self.mouse.update()
 
     def render(self):
         self.screen.draw_image("dot_pattern", (0, 50))
         self.toolbar.render(self.screen)
+        self.gates.render(self.screen)
+        self.wires.render(self.screen)
