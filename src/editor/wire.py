@@ -2,7 +2,7 @@ from src.editor.component import Component
 
 # CONSTANTS
 WIRE_WIDTH = 3
-WIRE_COLOR = (200, 200, 200)
+WIRE_COLOR = (150, 200, 200)
 
 class Wire(Component):
     """Component that represent a logic gate"""
@@ -33,7 +33,7 @@ class Wire(Component):
         pass
 
     def render(self, screen):
-        screen.drawLine(WIRE_COLOR, self.xStart, self.yStart, self.xEnd, self.yEnd, WIRE_WIDTH)
+        screen.draw_line(WIRE_COLOR, self.xStart, self.yStart, self.xEnd, self.yEnd, WIRE_WIDTH)
 
 
 class Wires(Component):
@@ -43,12 +43,17 @@ class Wires(Component):
         self.editor = editor
         self.wires = []
 
-    def add_wire(self):
-        # TODO
-        # Get Start and End of the wire
-        # How do that with the mouse?
+        self.wire_start = []
 
-        self.wires.append(Wire(xStart, yStart, xEnd, yEnd, self.editor))
+    def add_wire(self, x, y):
+        if len(self.wire_start) == 0:
+            self.wire_start.append(x)
+            self.wire_start.append(y)
+        else:
+            self.wires.append(Wire(self.wire_start[0], self.wire_start[1], x, y, self.editor))
+            print("x = {0} y = {1} x = {2} y = {3}".format(self.wire_start[0], self.wire_start[1], x, y,))
+            self.wire_start.clear()
+
 
     def update(self, mouse_pos):
         for wire in self.wires:
