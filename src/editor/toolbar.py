@@ -29,9 +29,6 @@ class ToolbarButton(Component):
         self.color = (50, 50, 50)
         if self.text in Gate:
             self.editor.gates.add_gate(100, 100, 65, 47, Gate[self.text])
-        else:
-            # TODO implement this method!
-            self.wires.add_wire()
 
     def on_mouse_down(self, x, y, button):
         self.color = (50, 50, 50)
