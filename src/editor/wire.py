@@ -40,12 +40,12 @@ class Wires(Component):
 
         self.wire_start = []
 
-    def add_wire(self, io):
-        if len(self.wire_start) == 0:
-            self.wire_start.append(io)
-        else:
-            self.wires.append(Wire(self.wire_start[0], io, self.editor))
-            self.wire_start.clear()
+    def add_wire(self, pin):
+        if len(self.wire_start) == 0:  # First Pin
+            self.wire_start.append(pin)
+        else:  # Second Pin
+            self.wires.append(Wire(self.wire_start[0], pin, self.editor))
+            self.wire_start.clear()  # Clean
 
 
     def update(self, mouse_pos):

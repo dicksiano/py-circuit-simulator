@@ -10,11 +10,12 @@ IS_ON_MOUSE_COLOR = (0, 200, 0)
 IS_SELECTED_COLOR = (0, 0, 200)
 
 
-class IO(Component):
+class Pin(Component):
     """Component that represents input or output of a logic gate"""
 
-    def __init__(self, x, y, width, height, editor):
+    def __init__(self, x, y, width, height, editor, gate):
         Component.__init__(self, x, y, width, height, editor)
+        self.gate = gate
 
     def on_mouse_move(self, x, y):
         pass
@@ -33,11 +34,11 @@ class IO(Component):
     def render(self, screen):
         pass
 
-class Input(IO):
+class Input(Pin):
     """Component that represents a input of a logic gate"""
 
-    def __init__(self, x, y, width, height, editor):
-        IO.__init__(self, x - DELTA, y, width, height, editor)
+    def __init__(self, x, y, width, height, editor, gate):
+        Pin.__init__(self, x - DELTA, y, width, height, editor, gate)
         self.isOnMouse = False
         self.isSelected = False
 
@@ -67,11 +68,11 @@ class Input(IO):
         elif self.isSelected:
             screen.fill_rect(IS_SELECTED_COLOR, (self.x, self.y, 10, 10))
 
-class Output(IO):
+class Output(Pin):
     """Component that represents the output of a logic gate"""
 
-    def __init__(self, x, y, width, height, editor):
-        IO.__init__(self, x + DELTA, y, width, height, editor)
+    def __init__(self, x, y, width, height, editor, gate):
+        Pin.__init__(self, x + DELTA, y, width, height, editor, gate)
         self.isOnMouse = False
         self.isSelected = False
 
@@ -108,10 +109,10 @@ class Gate(Component):
         Component.__init__(self, x, y, width, height, editor)
         self.image = image
 
-        self.first_input = Input(x, y + height * (1/3), 10, 10, editor)
-        self.second_input = Input(x, y + height * (2/3), 10, 10, editor)
+        self.first_input = Input(x, y + height * (1/3), 10, 10, editor, self)
+        self.second_input = Input(x, y + height * (2/3), 10, 10, editor, self)
 
-        self.output = Output(x + width, y + height/2, 10, 10, editor)
+        self.output = Output(x + width, y + height/2, 10, 10, editor, self)
 
     def update_in_out(self):  # Update I/O
         self.output.x = self.x + DELTA + self.width
