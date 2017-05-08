@@ -9,7 +9,8 @@ Gate = {
     "NOR": "port_nor2",
     "NOT": "port_not",
     "OR": "port_or2",
-    "XOR": "port_xor2"
+    "XOR": "port_xor2",
+    "XNOR": "port_xnor2"
 }
 
 # CONSTANTS
@@ -27,7 +28,7 @@ class ToolbarButton(Component):
     def on_mouse_click(self, x, y, button):
         self.color = (50, 50, 50)
         if self.text in Gate:
-            self.editor.gates.add_gate(100, 100, 60, 60, Gate[self.text])
+            self.editor.gates.add_gate(100, 100, 65, 47, Gate[self.text])
         else:
             # TODO implement this method!
             self.wires.add_wire()
@@ -57,7 +58,7 @@ class Toolbar(Component):
         Component.__init__(self, 0, 0, 800, 50, editor)
 
         self.buttons = []
-        button_names = ["OR", "AND", "NOT", "NOR", "NAND", "XOR"]
+        button_names = ["OR", "AND", "NOT", "NOR", "NAND", "XOR", "XNOR"]
         button_width = 800 // len(button_names) # FIXME hardcoded screen width
         for i, name in enumerate(button_names):
             self.buttons.append(ToolbarButton(i * button_width, 0, button_width, TOOLBAR_HEIGHT, name, editor))
