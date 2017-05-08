@@ -64,9 +64,9 @@ class Input(Pin):
 
     def render(self, screen):
         if self.isOnMouse:
-            screen.fill_rect(IS_ON_MOUSE_COLOR, (self.x, self.y, 10, 10))
+            screen.draw_circle(IS_ON_MOUSE_COLOR, self.x, self.y, 7, 3)
         elif self.isSelected:
-            screen.fill_rect(IS_SELECTED_COLOR, (self.x, self.y, 10, 10))
+            screen.draw_circle(IS_SELECTED_COLOR, self.x, self.y, 7, 3)
 
 class Output(Pin):
     """Component that represents the output of a logic gate"""
@@ -98,9 +98,9 @@ class Output(Pin):
 
     def render(self, screen):
         if self.isOnMouse:
-            screen.fill_rect(IS_ON_MOUSE_COLOR, (self.x, self.y, 10, 10))
+            screen.draw_circle(IS_ON_MOUSE_COLOR, self.x, self.y, 7, 3)
         elif self.isSelected:
-            screen.fill_rect(IS_SELECTED_COLOR, (self.x, self.y, 10, 10))
+            screen.draw_circle(IS_SELECTED_COLOR, self.x, self.y, 7, 3)
 
 class Gate(Component):
     """Component that represents a logic gate"""

@@ -42,5 +42,9 @@ class Screen:
         self.surface.blit(image, (rect.x + pos[0] - rect.width/2, \
             rect.y + pos[1] - rect.height/2,rect.width, rect.height))
 
-    def draw_line(self, color, xStart, yStart, xEnd, yEnd, width):
-        pygame.draw.line(self.surface, color, (xStart, yStart), (xEnd, yEnd), width)
+    def draw_line(self, color, x_start, y_start, x_end, y_end, width):
+        pygame.draw.line(self.surface, color, (x_start, y_start), (x_end, y_end), width)
+
+    def draw_circle(self, color, x, y, radius, thickness):
+
+        pygame.draw.circle(self.surface, color, (int(x), int(y)), radius, thickness)
