@@ -1,5 +1,8 @@
 import pygame, os
 
+PORT_IN = pygame.image.load(os.path.join("res", "port_in.png"))
+PORT_OUT = pygame.image.load(os.path.join("res", "port_out.png"))
+
 PORT_AND2 = pygame.image.load(os.path.join("res", "port_and2.png"))
 PORT_NAND2 = pygame.image.load(os.path.join("res", "port_nand2.png"))
 PORT_NOR2 = pygame.image.load(os.path.join("res", "port_nor2.png"))
@@ -11,6 +14,8 @@ PORT_XNOR2 = pygame.image.load(os.path.join("res", "port_xnor2.png"))
 DOT_PATTERN = pygame.image.load(os.path.join("res", "dot_pattern.jpg"))
 
 Assets = {
+    "port_in": PORT_IN,
+    "port_out": PORT_OUT,
     "port_and2": PORT_AND2,
     "port_nand2": PORT_NAND2,
     "port_nor2": PORT_NOR2,

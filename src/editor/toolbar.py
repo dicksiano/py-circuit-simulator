@@ -4,6 +4,8 @@ from src.editor.wire import Wires
 
 # Map from button to it's gates asset
 Gate = {
+    "IN": "port_in",
+    "OUT": "port_out",
     "AND": "port_and2",
     "NAND": "port_nand2",
     "NOR": "port_nor2",
@@ -55,8 +57,8 @@ class Toolbar(Component):
         Component.__init__(self, 0, 0, 800, 50, editor)
 
         self.buttons = []
-        button_names = ["OR", "AND", "NOT", "NOR", "NAND", "XOR", "XNOR"]
-        button_width = 800 // len(button_names) # FIXME hardcoded screen width
+        button_names = ["IN", "OUT", "OR", "AND", "NOT", "NOR", "NAND", "XOR", "XNOR"]
+        button_width = 800 // len(button_names) + 1 # FIXME hardcoded screen width
         for i, name in enumerate(button_names):
             self.buttons.append(ToolbarButton(i * button_width, 0, button_width, TOOLBAR_HEIGHT, name, editor))
 
