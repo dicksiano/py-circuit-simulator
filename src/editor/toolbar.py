@@ -51,21 +51,44 @@ class ToolbarButton(Component):
 
 
 class Toolbar(Component):
-    """Component that holds arrays of buttons for the UI"""
+    """Component that holds arrays of gate buttons for the UI"""
 
     def __init__(self, editor):
-        Component.__init__(self, 0, 0, 800, 50, editor)
+        Component.__init__(self, 0, 0, 800, 55, editor)
 
         self.buttons = []
         button_names = ["IN", "OUT", "OR", "AND", "NOT", "NOR", "NAND", "XOR", "XNOR"]
         button_width = 800 // len(button_names) + 1 # FIXME hardcoded screen width
         for i, name in enumerate(button_names):
-            self.buttons.append(ToolbarButton(i * button_width, 0, button_width, TOOLBAR_HEIGHT, name, editor))
+            self.buttons.append(ToolbarButton(i * button_width, 55, button_width, TOOLBAR_HEIGHT, name, editor))
 
     def update(self, mouse_pos):
         for button in self.buttons:
             button.update(mouse_pos)
     
+    def render(self, screen):
+        for button in self.buttons:
+            button.render(screen)
+
+class MenuToolbar(Component):
+    """"Component that holds array of menu buttons for the UI"""
+
+    def __init__ (self, editor):
+        Component.__init__(self, 0, 0, 800, 50, editor)
+
+        self.buttons = []
+        button_names = ["Editor", "Simulation", "Result", "Reset"]
+        button_width = 120
+        for i, name in enumerate(button_names):
+            if name == "Reset":
+                self.buttons.append(ToolbarButton(800 - button_width, 0, button_width, TOOLBAR_HEIGHT, name, editor))
+            else:
+                self.buttons.append(ToolbarButton(i * button_width, 0, button_width, TOOLBAR_HEIGHT, name, editor))
+
+    def update(self, mouse_pos):
+        for button in self.buttons:
+            button.update(mouse_pos)
+
     def render(self, screen):
         for button in self.buttons:
             button.render(screen)

@@ -1,6 +1,7 @@
 from src.editor.mouse import Mouse
 from src.editor.screen import Screen
 from src.editor.toolbar import Toolbar
+from src.editor.toolbar import MenuToolbar
 from src.editor.gate import Gates
 from src.editor.wire import Wires
 
@@ -12,6 +13,7 @@ class Editor:
         self.mouse = Mouse()
         self.screen = Screen(surface)
         self.toolbar = Toolbar(self)
+        self.menutoolbar = MenuToolbar(self)
         self.gates = Gates(self)
         self.wires = Wires(self)
 
@@ -28,13 +30,15 @@ class Editor:
     # GAME LOOP
     def update(self):
         self.toolbar.update(self.mouse)
+        self.menutoolbar.update(self.mouse)
         self.gates.update(self.mouse)
         self.wires.update(self.mouse)
 
         self.mouse.update()
 
     def render(self):
-        self.screen.draw_image("dot_pattern", (0, 50))
+        self.screen.draw_image("dot_pattern", (0, 66))
         self.toolbar.render(self.screen)
+        self.menutoolbar.render(self.screen)
         self.wires.render(self.screen)
         self.gates.render(self.screen)
