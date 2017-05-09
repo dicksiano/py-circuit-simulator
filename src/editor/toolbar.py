@@ -21,14 +21,19 @@ TOOLBAR_HEIGHT = 50
 class ToolbarButton(Component):
     """A clickable button of the toolbar"""
 
-    def __init__(self, x, y, width, height, text, editor):
+    def __init__(self, x, y, width, height, text, editor,
+                 default_color=(200, 200, 200), selection_color=(50, 50, 50), mouse_hover_color=(220, 220, 220)):
         Component.__init__(self, x, y, width, height, editor)
 
         self.text = text
-        self.color = (200, 200, 200)
+        self.default_color = default_color
+        self.selection_color = selection_color
+        self.mouse_hover_color = mouse_hover_color
+
+        self.color = self.default_color
 
     def on_mouse_click(self, x, y, button):
-        self.color = (50, 50, 50)
+        self.color = self.selection_color
         if self.text in Gate:
             self.editor.gates.add_gate(100, 100, 64, 47, Gate[self.text])
         elif self.text == "Reset":
@@ -37,16 +42,16 @@ class ToolbarButton(Component):
 
 
     def on_mouse_down(self, x, y, button):
-        self.color = (50, 50, 50)
+        self.color = self.selection_color
 
     def on_mouse_up(self, x, y, button):
-        self.color = (220, 220, 220)
+        self.color = self.mouse_hover_color
 
     def on_mouse_enter(self):
-        self.color = (220, 220, 220)
+        self.color = self.mouse_hover_color
 
     def on_mouse_exit(self):
-        self.color = (200, 200, 200)
+        self.color = self.default_color
     
     def render(self, screen):
         bounds = (self.x, self.y, self.width, self.height)
@@ -85,9 +90,11 @@ class MenuToolbar(Component):
         button_width = 120
         for i, name in enumerate(button_names):
             if name == "Reset":
-                self.buttons.append(ToolbarButton(800 - button_width, 0, button_width, TOOLBAR_HEIGHT, name, editor))
+                self.buttons.append(ToolbarButton(800 - button_width, 0, button_width, TOOLBAR_HEIGHT, name, editor,
+                                                  (0, 200, 200), (0, 50, 50), (0, 220, 220)))
             else:
-                self.buttons.append(ToolbarButton(i * button_width, 0, button_width, TOOLBAR_HEIGHT, name, editor))
+                self.buttons.append(ToolbarButton(i * button_width, 0, button_width, TOOLBAR_HEIGHT, name, editor,
+                                                  (0, 200, 200), (0, 50, 50), (0, 220, 220)))
 
     def update(self, mouse_pos):
         for button in self.buttons:
