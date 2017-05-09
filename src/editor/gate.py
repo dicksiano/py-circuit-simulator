@@ -58,6 +58,47 @@ class Gate(Component):
         Component.__init__(self, x, y, width, height, editor)
         self.image = image
 
+    def update_in_out(self):  # Update I/O
+        pass
+
+    def on_mouse_drag(self, x, y):
+        self.x = ((x // 16) * 16) - 32 + 16 #- self.width / 2 + 16
+        self.y = max(43, ((y // 16) * 16 + 11 - 32)) # FIXME hardcoded toolbar height
+        self.update_in_out()
+
+    def render(self, screen):
+        pass
+
+class GateFanInOne(Gate):
+    """Component that represents a logic gate with Fan In 1"""
+
+    def __init__(self, x, y, width, height, image, editor):
+        Gate.__init__(self, x, y, width, height, image, editor)
+
+        self.input = GateInputPin(x, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
+        self.output = GateOutputPin(x + width, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
+
+    def update_in_out(self):  # Update I/O
+        self.output.x = self.x + self.width - self.output.width/2
+        self.output.y = self.y + self.height / 2 - self.output.height/2
+
+        self.input.x = self.x - self.output.width/2
+        self.input.y = self.y + self.height / 2 - self.output.height/2
+
+    def render(self, screen):
+        screen.draw_image(self.image, (self.x, self.y))
+
+        self.output.render(screen)
+        self.input.render(screen)
+
+
+
+class GateFanInTwo(Gate):
+    """Component that represents a logic gate with Fan In 2"""
+
+    def __init__(self, x, y, width, height, image, editor):
+        Gate.__init__(self, x, y, width, height, image, editor)
+
         self.first_input = GateInputPin(x, y + height * (1 / 6.5), PIN_DIAMETER, PIN_DIAMETER, editor, self)
         self.second_input = GateInputPin(x, y + height * (1 - 1 / 6.5), PIN_DIAMETER, PIN_DIAMETER, editor, self)
         self.output = GateOutputPin(x + width, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
@@ -71,11 +112,6 @@ class Gate(Component):
 
         self.second_input.x = self.x - self.output.width/2
         self.second_input.y = self.y + self.height * (1 - 1 / 6.5) - self.output.height/2
-
-    def on_mouse_drag(self, x, y):
-        self.x = ((x // 16) * 16) - 32 + 16 #- self.width / 2 + 16
-        self.y = max(43, ((y // 16) * 16 + 11 - 32)) # FIXME hardcoded toolbar height
-        self.update_in_out()
 
     def render(self, screen):
         screen.draw_image(self.image, (self.x, self.y))
@@ -92,14 +128,21 @@ class Gates(Component):
         self.gates = []
 
     def add_gate(self, x, y, width, height, image):
-        self.gates.append(Gate(x, y, width, height, image, self.editor))
+        if image == "port_in" or image == "port_out" or image == "port_not":
+            self.gates.append(GateFanInOne(x, y, width, height, image, self.editor))
+        else:
+            self.gates.append(GateFanInTwo(x, y, width, height, image, self.editor))
 
     def update(self, mouse_pos):
         for gate in self.gates:
             gate.update(mouse_pos)
             gate.output.update(mouse_pos)
-            gate.first_input.update(mouse_pos)
-            gate.second_input.update(mouse_pos)
+
+            if gate.image == "port_in" or gate.image == "port_out" or gate.image == "port_not":
+                gate.input.update(mouse_pos)
+            else:
+                gate.first_input.update(mouse_pos)
+                gate.second_input.update(mouse_pos)
 
     def render(self, screen):
         for gate in reversed(self.gates): # reversed() so things that are
