@@ -99,8 +99,8 @@ class Gate(Component):
 
     def on_mouse_drag(self, x, y):
         self.mouse_hover = True
-        self.x = ((x // 16) * 16) #- self.width / 2 + 16
-        self.y = max(43, ((y // 16) * 16 + 11)) # FIXME hardcoded toolbar height
+        self.x = ((x // 16) * 16) - 32 + 16 #- self.width / 2 + 16
+        self.y = max(43, ((y // 16) * 16 + 11 - 32)) # FIXME hardcoded toolbar height
         self.update_in_out()
 
     def on_mouse_enter(self):
