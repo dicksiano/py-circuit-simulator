@@ -75,21 +75,28 @@ class GateFanInOne(Gate):
     def __init__(self, x, y, width, height, image, editor):
         Gate.__init__(self, x, y, width, height, image, editor)
 
-        self.input = GateInputPin(x, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
-        self.output = GateOutputPin(x + width, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
+        if not image == "port_in":
+            self.input = GateInputPin(x, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
+
+        if not image == "port_out":
+            self.output = GateOutputPin(x + width, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
 
     def update_in_out(self):  # Update I/O
-        self.output.x = self.x + self.width - self.output.width/2
-        self.output.y = self.y + self.height / 2 - self.output.height/2
+        if not self.image == "port_out":
+            self.output.x = self.x + self.width - self.output.width/2
+            self.output.y = self.y + self.height / 2 - self.output.height/2
 
-        self.input.x = self.x - self.output.width/2
-        self.input.y = self.y + self.height / 2 - self.output.height/2
+        if not self.image == "port_in":
+            self.input.x = self.x - self.input.width/2
+            self.input.y = self.y + self.height / 2 - self.input.height/2
 
     def render(self, screen):
         screen.draw_image(self.image, (self.x, self.y))
 
-        self.output.render(screen)
-        self.input.render(screen)
+        if not self.image == "port_in":
+            self.input.render(screen)
+        if not self.image == "port_out":
+            self.output.render(screen)
 
 
 
@@ -107,11 +114,11 @@ class GateFanInTwo(Gate):
         self.output.x = self.x + self.width - self.output.width/2
         self.output.y = self.y + self.height / 2 - self.output.height/2
 
-        self.first_input.x = self.x - self.output.width/2
-        self.first_input.y = self.y + self.height * (1 / 6.5) - self.output.height/2
+        self.first_input.x = self.x - self.first_input.width/2
+        self.first_input.y = self.y + self.height * (1 / 6.5) - self.first_input.height/2
 
-        self.second_input.x = self.x - self.output.width/2
-        self.second_input.y = self.y + self.height * (1 - 1 / 6.5) - self.output.height/2
+        self.second_input.x = self.x - self.second_input.width/2
+        self.second_input.y = self.y + self.height * (1 - 1 / 6.5) - self.second_input.height/2
 
     def render(self, screen):
         screen.draw_image(self.image, (self.x, self.y))
@@ -136,13 +143,16 @@ class Gates(Component):
     def update(self, mouse_pos):
         for gate in self.gates:
             gate.update(mouse_pos)
-            gate.output.update(mouse_pos)
 
-            if gate.image == "port_in" or gate.image == "port_out" or gate.image == "port_not":
-                gate.input.update(mouse_pos)
-            else:
+            if not (gate.image == "port_in" or gate.image == "port_out" or gate.image == "port_not"):
                 gate.first_input.update(mouse_pos)
                 gate.second_input.update(mouse_pos)
+                gate.output.update(mouse_pos)
+            else:
+                if not gate.image == "port_out":
+                    gate.output.update(mouse_pos)
+                if not gate.image == "port_in":
+                    gate.input.update(mouse_pos)
 
     def render(self, screen):
         for gate in reversed(self.gates): # reversed() so things that are
