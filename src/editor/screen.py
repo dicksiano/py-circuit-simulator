@@ -46,5 +46,4 @@ class Screen:
         pygame.draw.line(self.surface, color, (x_start, y_start), (x_end, y_end), width)
 
     def draw_circle(self, color, x, y, radius, thickness):
-
         pygame.draw.circle(self.surface, color, (int(x), int(y)), radius, thickness)

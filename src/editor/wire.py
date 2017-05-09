@@ -2,7 +2,7 @@ from src.editor.component import Component
 
 # CONSTANTS
 WIRE_WIDTH = 3
-WIRE_COLOR = (150, 200, 200)
+WIRE_COLOR = (0, 0, 0)
 
 class Wire(Component):
     """Component that represent a logic gate"""
