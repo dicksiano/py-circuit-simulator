@@ -5,7 +5,7 @@ WIRE_WIDTH = 3
 WIRE_COLOR = (0, 0, 0)
 
 class Wire:
-    """Component that represents a write in the screen"""
+    """Component that represents a wire in the screen"""
 
     def __init__(self, output, input):
         self.output = output
@@ -24,7 +24,7 @@ class Wire:
 
 
 class Wires(Component):
-    """Component that holds all the gates"""
+    """Component that holds all the wires"""
 
     def __init__(self, editor):
         self.editor = editor
