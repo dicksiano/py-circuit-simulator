@@ -12,7 +12,7 @@ IS_SELECTED_COLOR = (0, 0, 200)
 
 
 class GatePin(Component):
-    """Component that represents an input or output pi of a logic gate"""
+    """Component that represents an input or output pin of a logic gate"""
 
     def __init__(self, x, y, width, height, editor, gate):
         Component.__init__(self, x - width/2, y - height/2, width, height, editor)
