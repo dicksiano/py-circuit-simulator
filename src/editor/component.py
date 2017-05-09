@@ -9,7 +9,7 @@ class Component:
         self.width = width
         self.height = height
 
-        self._mouse_in_bounds = False
+        self.mouse_hover = False
         self._mouse_dragging = False
 
     # EVENT HANDLING
@@ -36,14 +36,14 @@ class Component:
 
     # GAME LOOP
     def update(self, mouse):
-        last_mouse_in_bounds = self._mouse_in_bounds
+        last_mouse_in_bounds = self.mouse_hover
 
         if self.x <= mouse.x < self.x + self.width \
             and self.y <= mouse.y < self.y + self.height:
             mouse_in_bounds = True
         else:
             mouse_in_bounds = False
-        self._mouse_in_bounds = mouse_in_bounds    
+        self.mouse_hover = mouse_in_bounds    
         
         if mouse_in_bounds and not last_mouse_in_bounds:
             self.on_mouse_enter()

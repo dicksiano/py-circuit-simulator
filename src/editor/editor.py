@@ -6,9 +6,7 @@ from src.editor.wire import Wires
 
 class Editor:
     """GUI that interacts with the user to create and modify digital circuits"""
-
-
-
+    
     # CONSTRUCTOR
     def __init__(self, surface):
         self.mouse = Mouse()

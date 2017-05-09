@@ -17,21 +17,7 @@ class GatePin(Component):
     def __init__(self, x, y, width, height, editor, gate):
         Component.__init__(self, x - width/2, y - height/2, width, height, editor)
         self.gate = gate
-        self.mouse_hover = False
         self.selected = False
-
-    def on_mouse_move(self, x, y):
-        if not self.selected:
-            self.mouse_hover = True
-
-    def on_mouse_drag(self, x, y):
-        self.mouse_hover = False
-
-    def on_mouse_enter(self):
-        self.mouse_hover = False
-
-    def on_mouse_exit(self):
-        self.mouse_hover = False
 
     def render(self, screen):
         if self.mouse_hover or self.gate.mouse_hover:
@@ -51,8 +37,6 @@ class GateInputPin(GatePin):
         if not len(self.editor.wires.wire_start) == 0:
             self.editor.wires.add_wire(self)
 
-            self.mouse_hover = False
-
 
 class GateOutputPin(GatePin):
     """Component that represents the output of a logic gate"""
@@ -61,7 +45,6 @@ class GateOutputPin(GatePin):
         GatePin.__init__(self, x, y, width, height, editor, gate)
 
     def on_mouse_click(self, x, y, button):
-        self.mouse_hover = False
         self.selected = True
 
         if len(self.editor.wires.wire_start) == 0:
@@ -74,8 +57,6 @@ class Gate(Component):
     def __init__(self, x, y, width, height, image, editor):
         Component.__init__(self, x, y, width, height, editor)
         self.image = image
-
-        self.mouse_hover = False
 
         self.first_input = GateInputPin(x, y + height * (1 / 6.5), PIN_DIAMETER, PIN_DIAMETER, editor, self)
         self.second_input = GateInputPin(x, y + height * (1 - 1 / 6.5), PIN_DIAMETER, PIN_DIAMETER, editor, self)
@@ -91,23 +72,10 @@ class Gate(Component):
         self.second_input.x = self.x - self.output.width/2
         self.second_input.y = self.y + self.height * (1 - 1 / 6.5) - self.output.height/2
 
-    def on_mouse_move(self, x, y):
-        self.mouse_hover = True
-
-    def on_mouse_click(self, x, y, button):
-        self.mouse_hover = True
-
     def on_mouse_drag(self, x, y):
-        self.mouse_hover = True
         self.x = ((x // 16) * 16) - 32 + 16 #- self.width / 2 + 16
         self.y = max(43, ((y // 16) * 16 + 11 - 32)) # FIXME hardcoded toolbar height
         self.update_in_out()
-
-    def on_mouse_enter(self):
-        self.mouse_hover = False
-
-    def on_mouse_exit(self):
-        self.mouse_hover = False
 
     def render(self, screen):
         screen.draw_image(self.image, (self.x, self.y))
@@ -132,7 +100,6 @@ class Gates(Component):
             gate.output.update(mouse_pos)
             gate.first_input.update(mouse_pos)
             gate.second_input.update(mouse_pos)
-
 
     def render(self, screen):
         for gate in reversed(self.gates): # reversed() so things that are
