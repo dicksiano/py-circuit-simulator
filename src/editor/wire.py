@@ -4,33 +4,23 @@ from src.editor.component import Component
 WIRE_WIDTH = 3
 WIRE_COLOR = (0, 0, 0)
 
-class Wire(Component):
-    """Component that represent a logic gate"""
+class Wire:
+    """Component that represents a write in the screen"""
 
-    def __init__(self, output, input, editor):
-        Component.__init__(self, output.x, output.y, 0, 0, editor)
+    def __init__(self, output, input):
         self.output = output
         self.input = input
 
-    def on_mouse_move(self, x, y):
-        pass
-
-    def on_mouse_click(self, x, y, button):
-        pass
-
-    def on_mouse_drag(self, x, y):
-        pass
-
-    def on_mouse_enter(self):
-        pass
-
-    def on_mouse_exit(self):
-        pass
-
     def render(self, screen):
-        screen.draw_line(WIRE_COLOR, self.output.x + self.output.width/2,
-                         self.output.y + self.output.height/2, self.input.x + self.input.width/2,
-                         self.input.y + self.input.height/2, WIRE_WIDTH)
+        start_x = self.output.x + self.output.width/2
+        start_y = self.output.y + self.output.height/2
+        end_x = self.input.x + self.input.width/2
+        end_y = self.input.y + self.input.height/2
+        mid_x = (start_x + end_x) / 2
+        mid_y = (start_y + end_y) / 2
+        screen.draw_line(WIRE_COLOR, start_x, start_y, mid_x, start_y, WIRE_WIDTH)
+        screen.draw_line(WIRE_COLOR, mid_x, start_y, mid_x, end_y, WIRE_WIDTH)
+        screen.draw_line(WIRE_COLOR, mid_x, end_y, end_x, end_y, WIRE_WIDTH)
 
 
 class Wires(Component):
@@ -46,14 +36,12 @@ class Wires(Component):
         if len(self.wire_start) == 0:  # First Pin
             self.wire_start.append(pin)
         else:  # Second Pin
-            self.wires.append(Wire(self.wire_start[0], pin, self.editor))
+            self.wires.append(Wire(self.wire_start[0], pin))
             self.wire_start[0].selected = False
             self.wire_start.clear()  # Clean
 
-
     def update(self, mouse_pos):
-        for wire in self.wires:
-            wire.update(mouse_pos)
+        pass
 
     def render(self, screen):
         for wire in self.wires:

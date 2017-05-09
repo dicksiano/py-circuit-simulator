@@ -30,7 +30,7 @@ class ToolbarButton(Component):
     def on_mouse_click(self, x, y, button):
         self.color = (50, 50, 50)
         if self.text in Gate:
-            self.editor.gates.add_gate(100, 100, 65, 47, Gate[self.text])
+            self.editor.gates.add_gate(100, 100, 64, 47, Gate[self.text])
 
     def on_mouse_down(self, x, y, button):
         self.color = (50, 50, 50)
