@@ -31,6 +31,10 @@ class ToolbarButton(Component):
         self.color = (50, 50, 50)
         if self.text in Gate:
             self.editor.gates.add_gate(100, 100, 64, 47, Gate[self.text])
+        elif self.text == "Reset":
+            self.editor.gates.gates = []
+            self.editor.wires.wires = []
+
 
     def on_mouse_down(self, x, y, button):
         self.color = (50, 50, 50)
