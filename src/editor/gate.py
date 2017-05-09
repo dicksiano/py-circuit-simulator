@@ -45,10 +45,14 @@ class GateOutputPin(GatePin):
         GatePin.__init__(self, x, y, width, height, editor, gate)
 
     def on_mouse_click(self, x, y, button):
-        self.selected = True
+        if self.selected == False:
+            self.selected = True
 
-        if len(self.editor.wires.wire_start) == 0:
-            self.editor.wires.add_wire(self)
+            if len(self.editor.wires.wire_start) == 0:
+                self.editor.wires.add_wire(self)
+        else:
+            self.selected = False
+            self.editor.wires.wire_start.clear()
 
 
 class Gate(Component):
