@@ -52,7 +52,6 @@ class GateInputPin(GatePin):
             self.editor.wires.add_wire(self)
 
             self.mouse_hover = False
-            self.selected = True
 
 
 class GateOutputPin(GatePin):
@@ -78,8 +77,8 @@ class Gate(Component):
 
         self.mouse_hover = False
 
-        self.first_input = GateInputPin(x, y + height * (1 / 3), PIN_DIAMETER, PIN_DIAMETER, editor, self)
-        self.second_input = GateInputPin(x, y + height * (2 / 3), PIN_DIAMETER, PIN_DIAMETER, editor, self)
+        self.first_input = GateInputPin(x, y + height * (1 / 6.5), PIN_DIAMETER, PIN_DIAMETER, editor, self)
+        self.second_input = GateInputPin(x, y + height * (1 - 1 / 6.5), PIN_DIAMETER, PIN_DIAMETER, editor, self)
         self.output = GateOutputPin(x + width, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
 
     def update_in_out(self):  # Update I/O
@@ -87,10 +86,10 @@ class Gate(Component):
         self.output.y = self.y + self.height / 2 - self.output.height/2
 
         self.first_input.x = self.x - self.output.width/2
-        self.first_input.y = self.y + self.height * (1 / 3) - self.output.height/2
+        self.first_input.y = self.y + self.height * (1 / 6.5) - self.output.height/2
 
         self.second_input.x = self.x - self.output.width/2
-        self.second_input.y = self.y + self.height * (2 / 3) - self.output.height/2
+        self.second_input.y = self.y + self.height * (1 - 1 / 6.5) - self.output.height/2
 
     def on_mouse_move(self, x, y):
         self.mouse_hover = True

@@ -47,6 +47,7 @@ class Wires(Component):
             self.wire_start.append(pin)
         else:  # Second Pin
             self.wires.append(Wire(self.wire_start[0], pin, self.editor))
+            self.wire_start[0].selected = False
             self.wire_start.clear()  # Clean
 
 
