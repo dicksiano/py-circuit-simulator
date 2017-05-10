@@ -44,7 +44,15 @@ class Simulation:
         self.gates_map[to_gate_id]["inputs"].append(from_gate_id)
         self.gates_map[from_gate_id]["outputs"].append(to_gate_id)
 
-    def run(self, input_state_list):
+    def run(self):
+        input_state_list = []
+        input_code_list = self._get_all_binary_numbers(len(self.input_pins))
+        for code in input_code_list:
+            input_state = {}
+            for i, input_pin in enumerate(self.input_pins):
+                input_state[input_pin] = code[i]
+            input_state_list.append(input_state)
+
         output = []
         for input_state in input_state_list:
             end_state = {}
@@ -54,6 +62,17 @@ class Simulation:
             for output_pin in output_state:
                 end_state[output_pin] = output_state[output_pin]
             output.append(end_state)
+        return output
+
+    def _get_all_binary_numbers(self, length):
+        output = [ "" ]
+        for i in range(length):
+            new_output = []
+            for number in output:
+                new_output.append("0" + number)
+            for number in output:
+                new_output.append("1" + number)
+            output = new_output
         return output
     
     def _simulate_for_input_states(self, input_states):
