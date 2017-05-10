@@ -81,6 +81,8 @@ class Gate(Component):
         pass
 
     def get_id(self):
+        if self.type == "in" or self.type == "out":
+            return self.name
         return str(self.editor.gates.index_of(self))
 
     def get_type(self):
@@ -89,8 +91,13 @@ class Gate(Component):
 class GateFanInOne(Gate):
     """Component that represents a logic gate with Fan In 1"""
 
-    def __init__(self, x, y, width, height, type, editor):
+    def __init__(self, x, y, width, height, type, editor, name=0):
         Gate.__init__(self, x, y, width, height, type, editor)
+
+        if type == "in":
+            self.name = "I" + str(name)
+        if type == "out":
+            self.name = "O" + str(name)
 
         if not type == "in":
             self.input = GateInputPin(x, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
@@ -114,6 +121,11 @@ class GateFanInOne(Gate):
             self.input.render(screen)
         if not self.type == "out":
             self.output.render(screen)
+
+        if not self.type == "not":
+            if self.mouse_hover:
+                bounds = (self.x, self.y - self.height / 2, self.width, self.height)
+                screen.draw_text_centered(self.name, (200, 0, 0), bounds)
 
 
 class GateFanInTwo(Gate):
@@ -151,9 +163,24 @@ class Gates(Component):
         self.editor = editor
         self.gates = []
 
+        self.number_input = 0
+        self.number_output = 0
+
     def add_gate(self, x, y, width, height, type):
+
+        if len(self.gates) == 0:
+            self.number_input = 0
+            self.number_output = 0
+
         if type == "in" or type == "out" or type == "not":
-            self.gates.append(GateFanInOne(x, y, width, height, type, self.editor))
+            if type == "in":
+                self.number_input = self.number_input + 1
+                self.gates.append(GateFanInOne(x, y, width, height, type, self.editor, self.number_input))
+            elif type == "out":
+                self.number_output = self.number_output + 1
+                self.gates.append(GateFanInOne(x, y, width, height, type, self.editor, self.number_output))
+            else:
+                self.gates.append(GateFanInOne(x, y, width, height, type, self.editor))
         else:
             self.gates.append(GateFanInTwo(x, y, width, height, type, self.editor))
 
