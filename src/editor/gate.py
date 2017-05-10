@@ -10,6 +10,7 @@ PIN_DIAMETER = 14
 IS_ON_MOUSE_COLOR = (0, 200, 0)
 IS_SELECTED_COLOR = (0, 0, 200)
 
+RIGHT_BUTTON = 3
 
 class GatePin(Component):
     """Component that represents an input or output pin of a logic gate"""
@@ -70,6 +71,50 @@ class Gate(Component):
         Component.__init__(self, x, y, width, height, editor)
         self.type = type
 
+    def on_mouse_click(self, x, y, button):
+        if button == RIGHT_BUTTON:
+            if self.type == "in":
+                flag = True
+                while (flag):
+                    flag = False
+                    for wire in self.editor.wires.wires:  # Delete Wires connected with this Gate
+                        if wire.output == self.output:
+                            self.editor.wires.wires.remove(wire)
+                            flag = True
+
+                self.editor.gates.gates.remove(self)  # Delete Gate
+
+            elif self.type == "out":
+                for wire in self.editor.wires.wires:  # Delete Wires connected with this Gate
+                    if wire.input == self.input:
+                        self.editor.wires.wires.remove(wire)
+
+                self.editor.gates.gates.remove(self)  # Delete Gate
+
+            elif self.type == "not":
+                flag = True
+                while (flag):
+                    flag = False
+                    for wire in self.editor.wires.wires:  # Delete Wires connected with this Gate
+                        if wire.input == self.input or wire.output == self.output:
+                            self.editor.wires.wires.remove(wire)
+                            flag = True
+
+                self.editor.gates.gates.remove(self)  # Delete Gate
+
+            else:
+                flag = True
+                while(flag):
+                    flag = False
+                    for wire in self.editor.wires.wires:  # Delete Wires connected with this Gate
+                        if wire.input == self.first_input or wire.input == self.second_input or wire.output == self.output:
+                            self.editor.wires.wires.remove(wire)
+                            flag = True
+
+                self.editor.gates.gates.remove(self)  # Delete Gate
+
+
+
     def update_in_out(self):  # Update I/O
         pass
 
@@ -92,13 +137,38 @@ class Gate(Component):
 class GateFanInOne(Gate):
     """Component that represents a logic gate with Fan In 1"""
 
-    def __init__(self, x, y, width, height, type, editor, name=0):
+    def __init__(self, x, y, width, height, type, editor):
         Gate.__init__(self, x, y, width, height, type, editor)
 
         if type == "in":
-            self.name = "In" + str(name)
+            number = 1
+            not_found = True
+            while not_found:
+                not_found = False
+                for gate in self.editor.gates.gates:
+                    if gate.type == "in":
+                        if gate.number == number:
+                            not_found = True
+                if not_found:
+                    number = number + 1
+
+            self.number = number
+            self.name = "In" + str(number)
+
         if type == "out":
-            self.name = "Out" + str(name)
+            number = 1
+            not_found = True
+            while not_found:
+                not_found = False
+                for gate in self.editor.gates.gates:
+                    if gate.type == "out":
+                        if gate.number == number:
+                            not_found = True
+                if not_found:
+                    number = number + 1
+
+            self.number = number
+            self.name = "Out" + str(number)
 
         if not type == "in":
             self.input = GateInputPin(x, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self, "in")
@@ -164,22 +234,13 @@ class Gates(Component):
         self.editor = editor
         self.gates = []
 
-        self.number_input = 0
-        self.number_output = 0
-
     def add_gate(self, x, y, width, height, type):
-
-        if len(self.gates) == 0:
-            self.number_input = 0
-            self.number_output = 0
 
         if type == "in" or type == "out" or type == "not":
             if type == "in":
-                self.number_input = self.number_input + 1
-                self.gates.append(GateFanInOne(x, y, width, height, type, self.editor, self.number_input))
+                self.gates.append(GateFanInOne(x, y, width, height, type, self.editor))
             elif type == "out":
-                self.number_output = self.number_output + 1
-                self.gates.append(GateFanInOne(x, y, width, height, type, self.editor, self.number_output))
+                self.gates.append(GateFanInOne(x, y, width, height, type, self.editor))
             else:
                 self.gates.append(GateFanInOne(x, y, width, height, type, self.editor))
         else:
