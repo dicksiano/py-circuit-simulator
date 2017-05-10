@@ -47,4 +47,8 @@ class Wires(Component):
         for wire in self.wires:
             wire.render(screen)
 
-
+    def get_list(self):
+        result = []
+        for wire in self.wires:
+            result.append({"output": wire.output.gate.get_id(), "input": wire.input.gate.get_id() })
+        return result
