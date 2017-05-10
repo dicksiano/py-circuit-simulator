@@ -12,9 +12,17 @@ This project aims to develop a simulator for digital circuits that is capable of
     * Mouse
     * Screen
     * Component (abstract)
+        * MenuToolbar
         * Toolbar
             * ToolbarButton
         * Gates
-            * Gate
-                * OR, AND, NOT, NOR, NAND, XOR
+            *GateFanInOne
+                * IN, OUT, NOT
+            * GateFanInTwo
+                * OR, AND, NOR, NAND, XOR, XNOR
         * Wires
+            * Wire
+* Result
+    * Waveform
+* Simulator
+    * Simulation
