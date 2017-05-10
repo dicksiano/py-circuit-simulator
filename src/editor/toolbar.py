@@ -36,7 +36,7 @@ class ToolbarButton(Component):
         self.color = self.selection_color
         if self.text in Gate:
             self.editor.gates.add_gate(100, 100, 64, 47, Gate[self.text])
-        elif self.text == "Reset":
+        elif self.text == "Clear":
             self.editor.gates.gates = []
             self.editor.wires.wires = []
         elif self.text == "Simulation":
@@ -87,10 +87,10 @@ class MenuToolbar(Component):
         Component.__init__(self, 0, 0, 800, 50, editor)
 
         self.buttons = []
-        button_names = ["Editor", "Simulation", "Result", "Reset"]
+        button_names = ["Editor", "Simulate", "Clear"]
         button_width = 120
         for i, name in enumerate(button_names):
-            if name == "Reset":
+            if name == "Clear":
                 self.buttons.append(ToolbarButton(800 - button_width, 0, button_width, TOOLBAR_HEIGHT, name, editor,
                                                   (0, 200, 200), (0, 50, 50), (0, 220, 220)))
             else:
