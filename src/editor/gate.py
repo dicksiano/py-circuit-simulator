@@ -67,7 +67,7 @@ class Gate(Component):
 
     def on_mouse_drag(self, x, y):
         self.x = ((x // 16) * 16) - 32 + 16 #- self.width / 2 + 16
-        self.y = max(43, ((y // 16) * 16 + 11 - 32)) # FIXME hardcoded toolbar height
+        self.y = max(64 + 32 + 11, ((y // 16) * 16 + 11 - 32)) # FIXME hardcoded toolbar height
         self.update_in_out()
 
     def render(self, screen):
