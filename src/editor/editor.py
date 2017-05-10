@@ -5,6 +5,8 @@ from src.editor.toolbar import MenuToolbar
 from src.editor.gate import Gates
 from src.editor.wire import Wires
 
+from src.simulator.simulation import Simulation
+
 class Editor:
     """GUI that interacts with the user to create and modify digital circuits"""
     
@@ -42,3 +44,7 @@ class Editor:
         self.menutoolbar.render(self.screen)
         self.wires.render(self.screen)
         self.gates.render(self.screen)
+
+    def run_simulation(self):
+        simulation = Simulation()
+        print(simulation.run())

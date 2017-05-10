@@ -39,7 +39,8 @@ class ToolbarButton(Component):
         elif self.text == "Reset":
             self.editor.gates.gates = []
             self.editor.wires.wires = []
-
+        elif self.text == "Simulation":
+            self.editor.run_simulation()
 
     def on_mouse_down(self, x, y, button):
         self.color = self.selection_color
