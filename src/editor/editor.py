@@ -54,5 +54,8 @@ class Editor:
         for wire in wire_list:
             simulation.add_wire(wire["output"], wire["input"])
         result = simulation.run()
+
+        print("Simulation:")
         for line in result:
             print(line)
+        print()
