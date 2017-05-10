@@ -55,7 +55,7 @@ class Editor:
             simulation.add_wire(wire["output"], wire["input"], wire["input_pin"])
         result = simulation.run()
 
-        print("SIMULATION")
+        print("SIMULATION RESULTS")
 
         print("| ", end='')
         for gate in gate_list:
@@ -80,3 +80,5 @@ class Editor:
                     print("|   ", end='')
                     print(line[keys], end="  ")
             print("|")
+
+        print()
