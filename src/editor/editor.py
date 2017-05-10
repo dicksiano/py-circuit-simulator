@@ -56,11 +56,27 @@ class Editor:
         result = simulation.run()
 
         print("SIMULATION")
-        print("gates:")
-        print(gate_list)
-        print("wires:")
-        print(wire_list)
-        print("simulation:")
-        for line in result:
-            print(line)
+
+        print("| ", end='')
+        for gate in gate_list:
+            if gate["type"] == 'in':
+                print(gate["id"], end='')
+                print(" | ", end='')
+        for gate in gate_list:
+            if gate["type"] == 'out':
+                print(gate["id"], end='')
+                print(" | ", end='')
+
         print()
+
+        for line in result:
+            for keys in line.keys():
+                if keys[0] == 'I':
+                    print("|  ", end='')
+                    print(line[keys], end="  ")
+
+            for keys in line.keys():
+                if keys[0] == 'O':
+                    print("|   ", end='')
+                    print(line[keys], end="  ")
+            print("|")
