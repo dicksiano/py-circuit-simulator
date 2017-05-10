@@ -2,7 +2,6 @@ import pygame, sys, os
 from pygame.locals import *
 
 from src.editor.editor import Editor
-from src.result.result import Result
 
 # CONSTANTS
 SCREEN_SIZE = (800, 600)
@@ -16,7 +15,6 @@ surface = pygame.display.set_mode(SCREEN_SIZE)  # sets ups the screen size
 pygame.display.set_caption("Circuit Simulator") # sets up the screen title
 
 editor = Editor(surface)                        # instantiates the GUI
-result = Result(surface)
 
 active_screen = "Editor"
 
