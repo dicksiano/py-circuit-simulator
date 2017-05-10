@@ -50,5 +50,6 @@ class Wires(Component):
     def get_list(self):
         result = []
         for wire in self.wires:
-            result.append({"output": wire.output.gate.get_id(), "input": wire.input.gate.get_id() })
+            result.append({"output": wire.output.gate.get_id(),
+                "input": wire.input.gate.get_id(), "input_pin": wire.input.type })
         return result
