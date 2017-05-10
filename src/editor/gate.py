@@ -31,11 +31,18 @@ class GateInputPin(GatePin):
 
     def __init__(self, x, y, width, height, editor, gate):
         GatePin.__init__(self, x, y, width, height, editor, gate)
-        
+        self.connected = False
 
     def on_mouse_click(self, x, y, button):
-        if not len(self.editor.wires.wire_start) == 0:
-            self.editor.wires.add_wire(self)
+        if self.connected:
+            self.connected = False
+            for wire in self.gate.editor.wires.wires:
+                if wire.input == self:
+                    self.gate.editor.wires.wires.remove(wire)
+        else:
+            if not len(self.editor.wires.wire_start) == 0:
+                self.editor.wires.add_wire(self)
+                self.connected = True
 
 
 class GateOutputPin(GatePin):
