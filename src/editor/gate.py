@@ -65,9 +65,9 @@ class GateOutputPin(GatePin):
 class Gate(Component):
     """Component that represents a logic gate"""
 
-    def __init__(self, x, y, width, height, image, editor):
+    def __init__(self, x, y, width, height, type, editor):
         Component.__init__(self, x, y, width, height, editor)
-        self.image = image
+        self.type = type
 
     def update_in_out(self):  # Update I/O
         pass
@@ -80,42 +80,47 @@ class Gate(Component):
     def render(self, screen):
         pass
 
+    def get_id(self):
+        return str(self.editor.gates.index_of(self))
+
+    def get_type(self):
+        return self.type
+
 class GateFanInOne(Gate):
     """Component that represents a logic gate with Fan In 1"""
 
-    def __init__(self, x, y, width, height, image, editor):
-        Gate.__init__(self, x, y, width, height, image, editor)
+    def __init__(self, x, y, width, height, type, editor):
+        Gate.__init__(self, x, y, width, height, type, editor)
 
-        if not image == "port_in":
+        if not type == "in":
             self.input = GateInputPin(x, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
 
-        if not image == "port_out":
+        if not type == "out":
             self.output = GateOutputPin(x + width, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
 
     def update_in_out(self):  # Update I/O
-        if not self.image == "port_out":
+        if not self.type == "out":
             self.output.x = self.x + self.width - self.output.width/2
             self.output.y = self.y + self.height / 2 - self.output.height/2
 
-        if not self.image == "port_in":
+        if not self.type == "in":
             self.input.x = self.x - self.input.width/2
             self.input.y = self.y + self.height / 2 - self.input.height/2
 
     def render(self, screen):
-        screen.draw_image(self.image, (self.x, self.y))
+        screen.draw_image(self.type, (self.x, self.y))
 
-        if not self.image == "port_in":
+        if not self.type == "in":
             self.input.render(screen)
-        if not self.image == "port_out":
+        if not self.type == "out":
             self.output.render(screen)
-
 
 
 class GateFanInTwo(Gate):
     """Component that represents a logic gate with Fan In 2"""
 
-    def __init__(self, x, y, width, height, image, editor):
-        Gate.__init__(self, x, y, width, height, image, editor)
+    def __init__(self, x, y, width, height, type, editor):
+        Gate.__init__(self, x, y, width, height, type, editor)
 
         self.first_input = GateInputPin(x, y + height * (1 / 6.5), PIN_DIAMETER, PIN_DIAMETER, editor, self)
         self.second_input = GateInputPin(x, y + height * (1 - 1 / 6.5), PIN_DIAMETER, PIN_DIAMETER, editor, self)
@@ -132,11 +137,12 @@ class GateFanInTwo(Gate):
         self.second_input.y = self.y + self.height * (1 - 1 / 6.5) - self.second_input.height/2
 
     def render(self, screen):
-        screen.draw_image(self.image, (self.x, self.y))
+        screen.draw_image(self.type, (self.x, self.y))
 
         self.output.render(screen)
         self.first_input.render(screen)
         self.second_input.render(screen)
+
 
 class Gates(Component):
     """Collection of all the gates"""
@@ -145,26 +151,38 @@ class Gates(Component):
         self.editor = editor
         self.gates = []
 
-    def add_gate(self, x, y, width, height, image):
-        if image == "port_in" or image == "port_out" or image == "port_not":
-            self.gates.append(GateFanInOne(x, y, width, height, image, self.editor))
+    def add_gate(self, x, y, width, height, type):
+        if type == "in" or type == "out" or type == "not":
+            self.gates.append(GateFanInOne(x, y, width, height, type, self.editor))
         else:
-            self.gates.append(GateFanInTwo(x, y, width, height, image, self.editor))
+            self.gates.append(GateFanInTwo(x, y, width, height, type, self.editor))
 
     def update(self, mouse_pos):
         for gate in self.gates:
             gate.update(mouse_pos)
 
-            if not (gate.image == "port_in" or gate.image == "port_out" or gate.image == "port_not"):
+            if not (gate.type == "in" or gate.type == "out" or gate.type == "not"):
                 gate.first_input.update(mouse_pos)
                 gate.second_input.update(mouse_pos)
                 gate.output.update(mouse_pos)
             else:
-                if not gate.image == "port_out":
+                if not gate.type == "out":
                     gate.output.update(mouse_pos)
-                if not gate.image == "port_in":
+                if not gate.type == "in":
                     gate.input.update(mouse_pos)
 
     def render(self, screen):
         for gate in reversed(self.gates): # reversed() so things that are
             gate.render(screen)           # dragged first are on the front
+
+    def index_of(self, gate):
+        if gate in self.gates:
+            return self.gates.index(gate)
+        else:
+            return -1
+
+    def get_list(self):
+        result = []
+        for i, gate in enumerate(self.gates):
+            result.append({ "id": gate.get_id(), "type": gate.get_type() })
+        return result
