@@ -95,18 +95,12 @@ class Editor:
                     file.write("  ")
             file.write("|\n")
 
-        file.write("\n")
-        file.write("TIMING DIAGRAM\n")
+        file.write("\nTIMING DIAGRAM\n")
 
         for gate in gate_list:
-            if gate["type"] == 'in' or gate["type"] == 'out':
-                if gate["type"] == 'in':
-                    file.write(gate["id"])
-                    file.write(":  ")
-
-                if gate["type"] == 'out':
-                    file.write(gate["id"])
-                    file.write(": ")
+            if gate["type"] == 'in':
+                file.write(gate["id"])
+                file.write(":  ")
 
                 for line in result:
                     for keys in line.keys():
@@ -117,5 +111,21 @@ class Editor:
                                 file.write("---")
 
                 file.write("\n")
+
+        for gate in gate_list:
+            if gate["type"] == 'out':
+                file.write(gate["id"])
+                file.write(": ")
+
+                for line in result:
+                    for keys in line.keys():
+                        if keys == gate["id"]:
+                            if line[keys] == '0':
+                                file.write("___")
+                            if line[keys] == '1':
+                                file.write("---")
+
+                file.write("\n")
+
         file.write("\n")
         file.close()
