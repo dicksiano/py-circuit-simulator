@@ -95,9 +95,9 @@ class GateFanInOne(Gate):
         Gate.__init__(self, x, y, width, height, type, editor)
 
         if type == "in":
-            self.name = "I" + str(name)
+            self.name = "In" + str(name)
         if type == "out":
-            self.name = "O" + str(name)
+            self.name = "Out" + str(name)
 
         if not type == "in":
             self.input = GateInputPin(x, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
