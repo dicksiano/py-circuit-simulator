@@ -47,4 +47,10 @@ class Editor:
 
     def run_simulation(self):
         simulation = Simulation()
+        gate_list = self.gates.get_list()
+        wire_list = self.wires.get_list()
+        for gate in gate_list:
+            simulation.add_gate(gate["id"], gate["type"])
+        for wire in wire_list:
+            simulation.add_wire(wire["output"], wire["input"])
         print(simulation.run())
