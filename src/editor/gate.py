@@ -81,6 +81,8 @@ class Gate(Component):
         pass
 
     def get_id(self):
+        if self.type == "in" or self.type == "out":
+            return self.name
         return str(self.editor.gates.index_of(self))
 
     def get_type(self):
