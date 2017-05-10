@@ -124,9 +124,8 @@ class GateFanInOne(Gate):
             self.output.render(screen)
 
         if not self.type == "not":
-            if self.mouse_hover:
-                bounds = (self.x, self.y - self.height / 2, self.width, self.height)
-                screen.draw_text_centered(self.name, (200, 0, 0), bounds)
+            bounds = (self.x, self.y - self.height / 2, self.width, self.height)
+            screen.draw_text_centered(self.name, (0, 0, 255), bounds)
 
 
 class GateFanInTwo(Gate):
