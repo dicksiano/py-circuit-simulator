@@ -52,10 +52,10 @@ class Editor:
         for gate in gate_list:
             simulation.add_gate(gate["id"], gate["type"])
         for wire in wire_list:
-            simulation.add_wire(wire["output"], wire["input"])
+            simulation.add_wire(wire["output"], wire["input"], wire["input_pin"])
         result = simulation.run()
 
-        print("SIMULATION")
+        print("SIMULATION RESULTS")
 
         print("| ", end='')
         for gate in gate_list:
@@ -103,3 +103,4 @@ class Editor:
                                 print("---", end='')
 
                 print()
+        print()

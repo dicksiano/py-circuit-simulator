@@ -17,14 +17,21 @@ class Simulation:
             return print("ERROR: Duplicated gate id '" + str(id) + "'")
 
         self.gates.append({ "id": id, "type": type })
-        self.gates_map[id] = { "type": type, "outputs": [], "inputs": [] }
+        if id == "in":
+            self.gates_map[id] = { "type": type, "out": [] }
+        elif id == "out":
+            self.gates_map[id] = { "type": type, "in": None }
+        elif id == "not":
+            self.gates_map[id] = { "type": type, "in": None, "out": [] }
+        else:
+            self.gates_map[id] = { "type": type, "in1": None, "in2": None, "out": [] }
 
         if type == "in":
             self.input_pins.append(id)
         if type == "out":
             self.output_pins.append(id)
 
-    def add_wire(self, from_gate_id, to_gate_id):
+    def add_wire(self, from_gate_id, to_gate_id, to_gate_pin):
         if from_gate_id not in self.gates_map:
             return print("ERROR: Non-existent gate id '" + str(from_gate_id) + "'")
         if to_gate_id not in self.gates_map:
@@ -33,16 +40,25 @@ class Simulation:
             return print("ERROR: Gate of type 'out' can't have ouput wires")
         if self.gates_map[to_gate_id]["type"] == "in":
             return print("ERROR: Gate of type 'in' can't have input wires")
-        if self.gates_map[to_gate_id]["type"] == "not" and len(self.gates_map[to_gate_id]["inputs"]) == 1:
-            return print("ERROR: Gate of type 'not' can't have more than one input wire")
-        if self.gates_map[to_gate_id]["type"] == "out" and len(self.gates_map[to_gate_id]["inputs"]) == 1:
-            return print("ERROR: Gate of type 'out' can't have more than one input wire")
-        if len(self.gates_map[to_gate_id]["inputs"]) == 2:
-            return print("ERROR: Gate of type '" + self.gates_map[to_gate_id]["type"] \
-                 + "' can't have more than two input wires")
+        if "in" in self.gates_map[to_gate_id] and not self.gates_map[to_gate_id]["in"] == None:
+            return print("ERROR: Gates with fan in 1 can't have more than one input wire")
+        if to_gate_pin == "in1" and not self.gates_map[to_gate_id]["in1"] == None:
+            return print("ERROR: A gate can't have more than one wire in a single input pin")
+        if to_gate_pin == "in2" and not self.gates_map[to_gate_id]["in2"] == None:
+            return print("ERROR: A gate can't have more than one wire in a single input pin")    
+        
+        if self.gates_map[to_gate_id]["type"] == "not" or self.gates_map[to_gate_id]["type"] == "out":
+            if not to_gate_pin == "in":
+                return print("ERROR: Invalid gate pin '" + str(to_gate_pin) + "'")
+            else:
+                self.gates_map[to_gate_id][to_gate_pin] = from_gate_id
+        else:
+            if not to_gate_pin == "in1" and not to_gate_pin == "in2":
+                return print("ERROR: Invalid gate pin '" + str(to_gate_pin) + "'")
+            else:
+                self.gates_map[to_gate_id][to_gate_pin] = from_gate_id
 
-        self.gates_map[to_gate_id]["inputs"].append(from_gate_id)
-        self.gates_map[from_gate_id]["outputs"].append(to_gate_id)
+        self.gates_map[from_gate_id]["out"].append({ "id": to_gate_id, "pin": to_gate_pin })
 
     def run(self):
         input_state_list = []
@@ -84,7 +100,7 @@ class Simulation:
                 if gate["id"] in input_states:
                     gate_states[gate["id"]] = { "out": input_states[gate["id"]] }
                 else:
-                    gate_states[gate["id"]] = "X"
+                    gate_states[gate["id"]] = { "out": "X" }
             elif gate["type"] == "out":
                 gate_states[gate["id"]] = { "in": "X" }
                 undefined_states += 1
@@ -104,24 +120,18 @@ class Simulation:
                     continue
 
                 output_state = gate_states[gate["id"]]["out"]
-                output_gates = self.gates_map[gate["id"]]["outputs"]
+                output_gates = self.gates_map[gate["id"]]["out"]
 
                 # propagate signal over wires
                 for other_gate in output_gates:
                     if output_state == "X":
                         continue
-                    if "in" in gate_states[other_gate]:
-                        if gate_states[other_gate]["in"] == "X":
-                            gate_states[other_gate]["in"] = gate_states[gate["id"]]["out"]
+
+                    if other_gate["pin"] in gate_states[other_gate["id"]]:
+                        if gate_states[other_gate["id"]][other_gate["pin"]] == "X":
+                            gate_states[other_gate["id"]][other_gate["pin"]] = output_state
                             undefined_states -= 1
-                    elif "in1" in gate_states[other_gate] or "in2" in gate_states[other_gate]:
-                        if gate_states[other_gate]["in1"] == "X":
-                            gate_states[other_gate]["in1"] = gate_states[gate["id"]]["out"]
-                            undefined_states -= 1
-                        elif gate_states[other_gate]["in2"] == "X":
-                            gate_states[other_gate]["in2"] = gate_states[gate["id"]]["out"]
-                            undefined_states -= 1
-                
+
                 # resolve gate logic if possible
                 if output_state == "X":
                     if "in" in gate_states[gate["id"]]:

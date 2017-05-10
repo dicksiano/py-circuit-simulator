@@ -29,9 +29,10 @@ class GatePin(Component):
 class GateInputPin(GatePin):
     """Component that represents a input pin of a logic gate"""
 
-    def __init__(self, x, y, width, height, editor, gate):
+    def __init__(self, x, y, width, height, editor, gate, type):
         GatePin.__init__(self, x, y, width, height, editor, gate)
         self.connected = False
+        self.type = type
 
     def on_mouse_click(self, x, y, button):
         if self.connected:
@@ -100,7 +101,7 @@ class GateFanInOne(Gate):
             self.name = "Out" + str(name)
 
         if not type == "in":
-            self.input = GateInputPin(x, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
+            self.input = GateInputPin(x, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self, "in")
 
         if not type == "out":
             self.output = GateOutputPin(x + width, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
@@ -134,8 +135,8 @@ class GateFanInTwo(Gate):
     def __init__(self, x, y, width, height, type, editor):
         Gate.__init__(self, x, y, width, height, type, editor)
 
-        self.first_input = GateInputPin(x, y + height * (1 / 6.5), PIN_DIAMETER, PIN_DIAMETER, editor, self)
-        self.second_input = GateInputPin(x, y + height * (1 - 1 / 6.5), PIN_DIAMETER, PIN_DIAMETER, editor, self)
+        self.first_input = GateInputPin(x, y + height * (1 / 6.5), PIN_DIAMETER, PIN_DIAMETER, editor, self, "in1")
+        self.second_input = GateInputPin(x, y + height * (1 - 1 / 6.5), PIN_DIAMETER, PIN_DIAMETER, editor, self, "in2")
         self.output = GateOutputPin(x + width, y + height/2, PIN_DIAMETER, PIN_DIAMETER, editor, self)
 
     def update_in_out(self):  # Update I/O
