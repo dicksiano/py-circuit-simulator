@@ -1,6 +1,7 @@
 from src.editor.component import Component
 from src.editor.gate import Gates
 from src.editor.wire import Wires
+from src.result.waveform import Waveform
 
 # Map from button to it's type
 Gate = {
@@ -39,8 +40,17 @@ class ToolbarButton(Component):
         elif self.text == "Clear":
             self.editor.gates.gates = []
             self.editor.wires.wires = []
+            self.editor.active_screen = "Editor"
+            self.editor.waveform.is_result = False
+
         elif self.text == "Simulate":
             self.editor.run_simulation()
+        elif self.text == "Editor":
+            self.editor.active_screen = "Editor"
+        elif self.text == "Result":
+            if self.editor.waveform.is_result == True:
+                self.editor.active_screen = "Result"
+
 
     def on_mouse_down(self, x, y, button):
         self.color = self.selection_color
@@ -87,7 +97,7 @@ class MenuToolbar(Component):
         Component.__init__(self, 0, 0, 800, 50, editor)
 
         self.buttons = []
-        button_names = ["Editor", "Simulate", "Clear"]
+        button_names = ["Editor", "Simulate", "Result", "Clear"]
         button_width = 120
         for i, name in enumerate(button_names):
             if name == "Clear":

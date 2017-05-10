@@ -4,6 +4,7 @@ from src.editor.toolbar import Toolbar
 from src.editor.toolbar import MenuToolbar
 from src.editor.gate import Gates
 from src.editor.wire import Wires
+from src.result.waveform import Waveform
 
 from src.simulator.simulation import Simulation
 
@@ -18,6 +19,9 @@ class Editor:
         self.menutoolbar = MenuToolbar(self)
         self.gates = Gates(self)
         self.wires = Wires(self)
+        self.waveform = Waveform(self)
+
+        self.active_screen = "Editor"
 
     # EVENT HANDLING
     def on_mouse_move(self, x, y):
@@ -35,15 +39,17 @@ class Editor:
         self.menutoolbar.update(self.mouse)
         self.gates.update(self.mouse)
         self.wires.update(self.mouse)
-
         self.mouse.update()
 
     def render(self):
-        self.screen.draw_image("dot_pattern", (0, 66))
-        self.toolbar.render(self.screen)
         self.menutoolbar.render(self.screen)
-        self.wires.render(self.screen)
-        self.gates.render(self.screen)
+        if self.active_screen == "Editor":
+            self.screen.draw_image("dot_pattern", (0, 66))
+            self.toolbar.render(self.screen)
+            self.wires.render(self.screen)
+            self.gates.render(self.screen)
+        elif self.active_screen == "Result":
+            self.waveform.render(self.screen)
 
     def run_simulation(self):
         simulation = Simulation()
@@ -54,6 +60,11 @@ class Editor:
         for wire in wire_list:
             simulation.add_wire(wire["output"], wire["input"], wire["input_pin"])
         result = simulation.run()
+
+        self.active_screen = "Result"
+        self.waveform.is_result = True
+        self.waveform.result = result
+        self.waveform.gate_list = gate_list
 
         file = open("results/Simulation_Result.txt", "w")
 
