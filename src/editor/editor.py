@@ -55,52 +55,56 @@ class Editor:
             simulation.add_wire(wire["output"], wire["input"], wire["input_pin"])
         result = simulation.run()
 
-        print("SIMULATION RESULTS")
+        file = open("results/Simulation_Result.txt", "w")
 
-        print("| ", end='')
+        file.write("SIMULATION RESULTS\n")
+
+        file.write("| ")
         for gate in gate_list:
             if gate["type"] == 'in':
-                print(gate["id"], end='')
-                print(" | ", end='')
+                file.write(gate["id"])
+                file.write(" | ")
         for gate in gate_list:
             if gate["type"] == 'out':
-                print(gate["id"], end='')
-                print(" | ", end='')
+                file.write(gate["id"])
+                file.write(" | ")
 
-        print()
+        file.write("\n")
 
         for line in result:
             for keys in line.keys():
                 if keys[0] == 'I':
-                    print("|  ", end='')
-                    print(line[keys], end="  ")
-
+                    file.write("|  ")
+                    file.write(line[keys])
+                    file.write("  ")
             for keys in line.keys():
                 if keys[0] == 'O':
-                    print("|   ", end='')
-                    print(line[keys], end="  ")
-            print("|")
+                    file.write("|   ")
+                    file.write(line[keys])
+                    file.write("  ")
+            file.write("|\n")
 
-        print()
-        print("TIMING DIAGRAM")
+        file.write("\n")
+        file.write("TIMING DIAGRAM\n")
 
         for gate in gate_list:
             if gate["type"] == 'in' or gate["type"] == 'out':
                 if gate["type"] == 'in':
-                    print(gate["id"], end='')
-                    print(":  ", end='')
+                    file.write(gate["id"])
+                    file.write(":  ")
 
                 if gate["type"] == 'out':
-                    print(gate["id"], end='')
-                    print(": ", end='')
+                    file.write(gate["id"])
+                    file.write(": ")
 
                 for line in result:
                     for keys in line.keys():
                         if keys == gate["id"]:
                             if line[keys] == '0':
-                                print("___", end='')
+                                file.write("___")
                             if line[keys] == '1':
-                                print("---", end='')
+                                file.write("---")
 
-                print()
-        print()
+                file.write("\n")
+        file.write("\n")
+        file.close()
