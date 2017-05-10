@@ -2,17 +2,17 @@ from src.editor.component import Component
 from src.editor.gate import Gates
 from src.editor.wire import Wires
 
-# Map from button to it's gates asset
+# Map from button to it's type
 Gate = {
-    "IN": "port_in",
-    "OUT": "port_out",
-    "AND": "port_and2",
-    "NAND": "port_nand2",
-    "NOR": "port_nor2",
-    "NOT": "port_not",
-    "OR": "port_or2",
-    "XOR": "port_xor2",
-    "XNOR": "port_xnor2"
+    "IN": "in",
+    "OUT": "out",
+    "AND": "and2",
+    "NAND": "nand2",
+    "NOR": "nor2",
+    "NOT": "not",
+    "OR": "or2",
+    "XOR": "xor2",
+    "XNOR": "xnor2"
 }
 
 # CONSTANTS
