@@ -39,7 +39,7 @@ class ToolbarButton(Component):
         elif self.text == "Clear":
             self.editor.gates.gates = []
             self.editor.wires.wires = []
-        elif self.text == "Simulation":
+        elif self.text == "Simulate":
             self.editor.run_simulation()
 
     def on_mouse_down(self, x, y, button):
