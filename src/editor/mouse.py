@@ -5,7 +5,7 @@ class Mouse:
     def __init__(self):
         # CONSTANTS
         self.BUTTON_LEFT = 1
-        self.BUTTON_RIGHT = 2
+        self.BUTTON_RIGHT = 3
         self.SCROLL_UP = 4
         self.SCROLL_DOWN = 5
 
