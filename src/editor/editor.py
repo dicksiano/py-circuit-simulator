@@ -80,3 +80,26 @@ class Editor:
                     print("|   ", end='')
                     print(line[keys], end="  ")
             print("|")
+
+        print()
+        print("TIMING DIAGRAM")
+
+        for gate in gate_list:
+            if gate["type"] == 'in' or gate["type"] == 'out':
+                if gate["type"] == 'in':
+                    print(gate["id"], end='')
+                    print(":  ", end='')
+
+                if gate["type"] == 'out':
+                    print(gate["id"], end='')
+                    print(": ", end='')
+
+                for line in result:
+                    for keys in line.keys():
+                        if keys == gate["id"]:
+                            if line[keys] == '0':
+                                print("___", end='')
+                            if line[keys] == '1':
+                                print("---", end='')
+
+                print()
